@@ -9,17 +9,334 @@
     <meta property="og:locale" content="en_US">
     <meta name="description" content="SpeedRennes collective - Speedrunning in Rennes and Brittany">
     <meta property="og:description" content="SpeedRennes collective - Speedrunning in Rennes and Brittany">
-    <link rel="canonical" href="https://feoche.github.io/speedrennes/">
-    <meta property="og:url" content="https://feoche.github.io/speedrennes/">
+    <link rel="canonical" href="https://speedrennes.com">
+    <meta property="og:url" content="https://speedrennes.com">
     <meta property="og:site_name" content="speedrennes">
     <script type="application/ld+json">
-{"name":"speedrennes","description":"SpeedRennes collective - Speedrunning in Rennes and Brittany","author":"François Eoche","@type":"WebSite","url":"https://feoche.github.io/speedrennes/","image":null,"publisher":null,"headline":"Welcome to SpeedRennes","dateModified":null,"datePublished":null,"sameAs":null,"mainEntityOfPage":null,"@context":"http://schema.org"}
+{"name":"speedrennes","description":"SpeedRennes collective - Speedrunning in Rennes and Brittany","author":"François Eoche","@type":"WebSite","url":"https://speedrennes.com","image":null,"publisher":null,"headline":"Welcome to SpeedRennes","dateModified":null,"datePublished":null,"sameAs":null,"mainEntityOfPage":null,"@context":"http://schema.org"}
     </script>
 
-    <meta name="description" content="Website of SpeedRennes collective ">
+    <meta name="description" content="Website of SpeedRennes collective">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#157878">
-    <link href="style.css" rel="stylesheet" type="text/css">
+    <style>
+        /* cyrillic-ext */
+        @font-face {
+            font-family: 'Open Sans';
+            font-style: normal;
+            font-weight: 400;
+            src: local('Open Sans Regular'), local('OpenSans-Regular'), url(https://fonts.gstatic.com/s/opensans/v15/K88pR3goAWT7BTt32Z01m4X0hVgzZQUfRDuZrPvH3D8.woff2) format('woff2');
+            unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+        }
+        /* cyrillic */
+        @font-face {
+            font-family: 'Open Sans';
+            font-style: normal;
+            font-weight: 400;
+            src: local('Open Sans Regular'), local('OpenSans-Regular'), url(https://fonts.gstatic.com/s/opensans/v15/RjgO7rYTmqiVp7vzi-Q5UYX0hVgzZQUfRDuZrPvH3D8.woff2) format('woff2');
+            unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+        }
+        /* greek-ext */
+        @font-face {
+            font-family: 'Open Sans';
+            font-style: normal;
+            font-weight: 400;
+            src: local('Open Sans Regular'), local('OpenSans-Regular'), url(https://fonts.gstatic.com/s/opensans/v15/LWCjsQkB6EMdfHrEVqA1KYX0hVgzZQUfRDuZrPvH3D8.woff2) format('woff2');
+            unicode-range: U+1F00-1FFF;
+        }
+        /* greek */
+        @font-face {
+            font-family: 'Open Sans';
+            font-style: normal;
+            font-weight: 400;
+            src: local('Open Sans Regular'), local('OpenSans-Regular'), url(https://fonts.gstatic.com/s/opensans/v15/xozscpT2726on7jbcb_pAoX0hVgzZQUfRDuZrPvH3D8.woff2) format('woff2');
+            unicode-range: U+0370-03FF;
+        }
+        /* vietnamese */
+        @font-face {
+            font-family: 'Open Sans';
+            font-style: normal;
+            font-weight: 400;
+            src: local('Open Sans Regular'), local('OpenSans-Regular'), url(https://fonts.gstatic.com/s/opensans/v15/59ZRklaO5bWGqF5A9baEEYX0hVgzZQUfRDuZrPvH3D8.woff2) format('woff2');
+            unicode-range: U+0102-0103, U+0110-0111, U+1EA0-1EF9, U+20AB;
+        }
+        /* latin-ext */
+        @font-face {
+            font-family: 'Open Sans';
+            font-style: normal;
+            font-weight: 400;
+            src: local('Open Sans Regular'), local('OpenSans-Regular'), url(https://fonts.gstatic.com/s/opensans/v15/u-WUoqrET9fUeobQW7jkRYX0hVgzZQUfRDuZrPvH3D8.woff2) format('woff2');
+            unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+20A0-20AB, U+20AD-20CF, U+2C60-2C7F, U+A720-A7FF;
+        }
+        /* latin */
+        @font-face {
+            font-family: 'Open Sans';
+            font-style: normal;
+            font-weight: 400;
+            src: local('Open Sans Regular'), local('OpenSans-Regular'), url(https://fonts.gstatic.com/s/opensans/v15/cJZKeOuBrn4kERxqtaUH3ZBw1xU1rKptJj_0jans920.woff2) format('woff2');
+            unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2212, U+2215;
+        }
+        /* cyrillic-ext */
+        @font-face {
+            font-family: 'Open Sans';
+            font-style: normal;
+            font-weight: 700;
+            src: local('Open Sans Bold'), local('OpenSans-Bold'), url(https://fonts.gstatic.com/s/opensans/v15/k3k702ZOKiLJc3WVjuplzA7aC6SjiAOpAWOKfJDfVRY.woff2) format('woff2');
+            unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+        }
+        /* cyrillic */
+        @font-face {
+            font-family: 'Open Sans';
+            font-style: normal;
+            font-weight: 700;
+            src: local('Open Sans Bold'), local('OpenSans-Bold'), url(https://fonts.gstatic.com/s/opensans/v15/k3k702ZOKiLJc3WVjuplzBdwxCXfZpKo5kWAx_74bHs.woff2) format('woff2');
+            unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+        }
+        /* greek-ext */
+        @font-face {
+            font-family: 'Open Sans';
+            font-style: normal;
+            font-weight: 700;
+            src: local('Open Sans Bold'), local('OpenSans-Bold'), url(https://fonts.gstatic.com/s/opensans/v15/k3k702ZOKiLJc3WVjuplzJ6vnaPZw6nYDxM4SVEMFKg.woff2) format('woff2');
+            unicode-range: U+1F00-1FFF;
+        }
+        /* greek */
+        @font-face {
+            font-family: 'Open Sans';
+            font-style: normal;
+            font-weight: 700;
+            src: local('Open Sans Bold'), local('OpenSans-Bold'), url(https://fonts.gstatic.com/s/opensans/v15/k3k702ZOKiLJc3WVjuplzPy1_HTwRwgtl1cPga3Fy3Y.woff2) format('woff2');
+            unicode-range: U+0370-03FF;
+        }
+        /* vietnamese */
+        @font-face {
+            font-family: 'Open Sans';
+            font-style: normal;
+            font-weight: 700;
+            src: local('Open Sans Bold'), local('OpenSans-Bold'), url(https://fonts.gstatic.com/s/opensans/v15/k3k702ZOKiLJc3WVjuplzPgrLsWo7Jk1KvZser0olKY.woff2) format('woff2');
+            unicode-range: U+0102-0103, U+0110-0111, U+1EA0-1EF9, U+20AB;
+        }
+        /* latin-ext */
+        @font-face {
+            font-family: 'Open Sans';
+            font-style: normal;
+            font-weight: 700;
+            src: local('Open Sans Bold'), local('OpenSans-Bold'), url(https://fonts.gstatic.com/s/opensans/v15/k3k702ZOKiLJc3WVjuplzIjoYw3YTyktCCer_ilOlhE.woff2) format('woff2');
+            unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+20A0-20AB, U+20AD-20CF, U+2C60-2C7F, U+A720-A7FF;
+        }
+        /* latin */
+        @font-face {
+            font-family: 'Open Sans';
+            font-style: normal;
+            font-weight: 700;
+            src: local('Open Sans Bold'), local('OpenSans-Bold'), url(https://fonts.gstatic.com/s/opensans/v15/k3k702ZOKiLJc3WVjuplzBampu5_7CjHW5spxoeN3Vs.woff2) format('woff2');
+            unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2212, U+2215;
+        }
+
+        /*! normalize.css v3.0.2 | MIT License | L'it.io/normalize */
+        html {
+            font-family: sans-serif;
+            -ms-text-size-adjust: 100%;
+            -webkit-text-size-adjust: 100%
+        }
+
+        body {
+            margin: 0
+        }
+
+        section {
+            display: block
+        }
+
+        a {
+            background-color: transparent
+        }
+
+        a:active, a:hover {
+            outline: 0
+        }
+
+        abbr[title] {
+            border-bottom: 1px dotted;
+            text-decoration: none
+        }
+
+        b, strong {
+            font-weight: bold
+        }
+
+        h1 {
+            font-size: 2em;
+            margin: 0.67em 0
+        }
+
+        small {
+            font-size: 80%
+        }
+
+        img {
+            border: 0
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        body {
+            padding: 0;
+            margin: 0;
+            font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+            font-size: 16px;
+            line-height: 1.5;
+            color: #606c71
+        }
+
+        a {
+            color: #1e6bb8;
+            text-decoration: none
+        }
+
+        a:hover {
+            text-decoration: underline
+        }
+
+        .page-header {
+            position: relative;
+            color: #fff;
+            text-shadow: 0 0 3px black, 0 0 10px black;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .page-header:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            margin: -10px;
+            background: url("https://images.unsplash.com/photo-1513528473392-f3fffb1b31a9?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=44845c69fe4febae451d4133ccb7518b&auto=format&fit=crop&w=1350&q=80") no-repeat center center;
+            background-size: cover;
+            -webkit-filter: blur(5px);
+            filter: blur(5px);
+            z-index: -1;
+        }
+
+        @media screen and (min-width: 64em) {
+            .page-header {
+                padding: 5rem 6rem
+            }
+        }
+
+        @media screen and (min-width: 42em) and (max-width: 64em) {
+            .page-header {
+                padding: 3rem 4rem
+            }
+        }
+
+        @media screen and (max-width: 42em) {
+            .page-header {
+                padding: 2rem 1rem
+            }
+        }
+
+        .project-name {
+            margin-top: 0;
+            margin-bottom: 0.1rem
+        }
+
+        @media screen and (min-width: 64em) {
+            .project-name {
+                font-size: 3.25rem
+            }
+        }
+
+        @media screen and (min-width: 42em) and (max-width: 64em) {
+            .project-name {
+                font-size: 2.25rem
+            }
+        }
+
+        @media screen and (max-width: 42em) {
+            .project-name {
+                font-size: 1.75rem
+            }
+        }
+
+        .project-tagline {
+            margin-bottom: 2rem;
+            font-weight: normal;
+        }
+
+        @media screen and (min-width: 64em) {
+            .project-tagline {
+                font-size: 1.25rem
+            }
+        }
+
+        @media screen and (min-width: 42em) and (max-width: 64em) {
+            .project-tagline {
+                font-size: 1.15rem
+            }
+        }
+
+        @media screen and (max-width: 42em) {
+            .project-tagline {
+                font-size: 1rem
+            }
+        }
+
+        .main-content {
+            word-wrap: break-word
+        }
+
+        .main-content :first-child {
+            margin-top: 0
+        }
+
+        @media screen and (min-width: 64em) {
+            .main-content {
+                max-width: 64rem;
+                padding: 2rem 6rem;
+                margin: 0 auto;
+                font-size: 1.1rem
+            }
+        }
+
+        @media screen and (min-width: 42em) and (max-width: 64em) {
+            .main-content {
+                padding: 2rem 4rem;
+                font-size: 1.1rem
+            }
+        }
+
+        @media screen and (max-width: 42em) {
+            .main-content {
+                padding: 2rem 1rem;
+                font-size: 1rem
+            }
+        }
+
+        .main-content img {
+            max-width: 100%
+        }
+
+        .main-content h2, .main-content h3 {
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            font-weight: normal;
+            color: #159957
+        }
+
+        .main-content p {
+            margin-bottom: 1em
+        }
+
+        .main-content ul {
+            margin-top: 0
+        }
+    </style>
 </head>
 <body>
 <section class="page-header">
@@ -30,46 +347,85 @@
 <section class="main-content">
     <h2 id="collective">Le collectif SpeedRennes</h2>
 
-    <p>Ce collectif a pour but de présenter des commentaires de speedrun de jeux vidéo, au sein d'évènements externes (<a href="https://gamesdonequick.com"><abbr title="Awesome Games Done Quick">AGDQ</abbr></a>, <a href="http://bourglarun.fr"><abbr title="Bourg La Run">BLR</abbr></a>, <a href="https://esamarathon.com"><abbr title="European Speedrunner Assembly">ESA</abbr></a>, ...) ou de manière indépendante</p>
+    <p>Ce collectif a pour but de présenter des commentaires de speedrun de jeux vidéo, au sein d'évènements externes
+        (<a href="https://gamesdonequick.com"><abbr title="Awesome Games Done Quick">AGDQ</abbr></a>, <a
+                href="http://bourglarun.fr"><abbr title="Bourg La Run">BLR</abbr></a>, <a
+                href="https://esamarathon.com"><abbr title="European Speedrunner Assembly">ESA</abbr></a>, ...) ou de
+        manière indépendante.</p>
 
-    <h3 id="members">Les membres</h3>
+    <section>
+        <h3 id="members">Les membres du collectif</h3>
 
-    <span style="padding:0 25px;width:150px;display:inline-block;vertical-align:top">
-        <img style="width:100px;height:100px;border-radius:50%" src="https://avatars2.githubusercontent.com/u/5332505?s=400&u=d2cf9ede9dfad7f4875fd71dffb10fa400526827&v=4">
-    </span>
-    <span style="display:inline-block;vertical-align:top;width:calc(100% - 160px);">
-        <p>
-            <b>François Eoche</b> — <small>Staʀsky</small><br/>
-            <small>Membre du collectif<br/>Commentateur hors pair<br/>Amateur de bons TAS (et speedruns évidemment!)</small>
-        </p>
-    </span>
+        <div>
+            <span style="padding:0 25px;width:150px;display:inline-block;vertical-align:top">
+                <img style="width:100px;height:100px;border-radius:50%"
+                     src="https://avatars2.githubusercontent.com/u/5332505?s=400&u=d2cf9ede9dfad7f4875fd71dffb10fa400526827&v=4">
+            </span>
+            <span style="display:inline-block;vertical-align:top;width:calc(100% - 160px);">
+                <p>
+                    <b>François Eoche</b> — <small>Staʀsky</small><br/>
+                    <small>
+                        <strong>Sa spécialité : </strong><em>TAS, runs de consoles de 6ème génération</em><br/>
+                        <strong>Des speedruns? </strong><em>Steamworld Dig (ben oui, faut bien platiner le jeu !)</em><br/>
+                        <strong>Speedrun préféré : </strong><em>Super Mario Odyssey Any%</em>
+                    </small>
+                </p>
+            </span>
+        </div>
 
-    <span style="padding:0 25px;width:150px;display:inline-block;vertical-align:top">
-        <img style="width:100px;height:100px;border-radius:50%" src="https://pbs.twimg.com/profile_images/631834850958438400/FzAJ3V17_400x400.jpg">
-    </span>
-    <span style="display:inline-block;vertical-align:top;width:calc(100% - 160px);">
-        <p>
-            <b>Olmo Furghieri</b> — <small>ElBlaireau</small><br/>
-            <small>Membre du collectif<br/>Commentateur hors pair<br/>Otaku des shmups</small>
-        </p>
-    </span>
+        <div>
+        <span style="padding:0 25px;width:150px;display:inline-block;vertical-align:top">
+            <img style="width:100px;height:100px;border-radius:50%"
+                 src="https://pbs.twimg.com/profile_images/631834850958438400/FzAJ3V17_400x400.jpg">
+        </span>
+            <span style="display:inline-block;vertical-align:top;width:calc(100% - 160px);">
+            <p>
+                <b>Olmo Furghieri</b> — <small>ElBlaireau</small><br/>
+                <small>
+                    <strong>Sa spécialité : </strong><em>Shmups et RPGs</em><br/>
+                    <strong>Des speedruns? </strong><em>Super Dangerous Dungeon</em><br/>
+                    <strong>Speedrun préféré : </strong><em>TAS Super Mario 64, Punch-Out Blindfold%</em>
+                </small>
+            </p>
+        </span>
+        </div>
 
-    <h3 id="events">Évènements</h3>
+        <div>
+            <span style="padding:0 25px;width:150px;display:inline-block;vertical-align:top">
+                <img style="width:100px;height:100px;border-radius:50%"
+                     src="https://pbs.twimg.com/profile_images/914448333317472256/hIAMghvq_400x400.jpg">
+            </span>
+            <span style="display:inline-block;vertical-align:top;width:calc(100% - 160px);">
+                <p>
+                    <b>Selene Tonon</b> — <small>Selene</small><br/>
+                    <small><strong>Sa spécialité : </strong>RPGs et story-telling</small>
+                </p>
+            </span>
+        </div>
+        <br/>
+    </section>
 
-    <ul>
-        <li>L'<a href="https://gamesdonequick.com">Awesome Games Done Quick</a>, au <a href="www.lecoffreapixels.com">Coffre à Pixels</a>, en Janvier 2018</li>
-        <li>L'<a href="https://gamesdonequick.com">Awesome Games Done Quick</a>, au <a href="www.since42.fr">Since 42</a>, en Janvier 2017</li>
-    </ul>
+    <section>
+        <h3 id="events">Évènements</h3>
 
-    <h3 id="contact">Contact</h3>
+        <ul>
+            <li>S01E00 - Initiation au speedrun, au <a href="http://www.lecoffreapixels.com">Coffre à Pixels</a>, en
+                Avril 2018
+            </li>
+            <li>L'<a href="https://gamesdonequick.com">Awesome Games Done Quick</a>, au <a
+                    href="http://www.lecoffreapixels.com">Coffre à Pixels</a>, en Janvier 2018
+            </li>
+            <li>L'<a href="https://gamesdonequick.com">Awesome Games Done Quick</a>, au <a href="http://www.since42.fr">Since
+                42</a>, en Janvier 2017
+            </li>
+        </ul>
+        <br/>
+    </section>
+    <section>
+        <h3 id="contact">Contact</h3>
 
-    <p>Pour nous contacter, envoyez un mail sur <a href="mailto:speeedrennes@gmail.com">speeedrennes@gmail.com</a>
-
-    <footer class="site-footer">
-
-        <p></p>
-
-    </footer>
+        <p>Pour nous contacter, envoyez un mail sur <a href="mailto:speeedrennes@gmail.com">speeedrennes@gmail.com</a>
+    </section>
 </section>
 
 
