@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="large-font" style="--text-base: 16px; --text-sm: 14px; --text-lg: 18px; --text-xl: 20px; --text-2xl: 24px; --text-3xl: 30px; --text-4xl: 36px; --text-5xl: 48px; --text-6xl: 60px;">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Personal portfolio showcasing experience, projects, and professional achievements">
+    <meta name="keywords" content="portfolio, developer, designer, experience, projects">
+    <meta name="author" content="François Eoche">
+    <meta name="theme-color" content="#2563eb">
+
+    <!-- Preload critical resources -->
+    <link rel="preload" href="styles.css" as="style">
+    <link rel="preload" href="script-optimized.js" as="script">
+    <link rel="preload" href="theme-switcher-optimized.js" as="script">
+
+    <!-- Dyslexic font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=OpenDyslexic&display=swap" rel="stylesheet">
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="styles.css">
+
+    <!-- Open Graph meta tags -->
+    <meta property="og:title" content="Personal Portfolio">
+    <meta property="og:description" content="Personal portfolio showcasing experience, projects, and professional achievements">
+    <meta property="og:type" content="website">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,&lt;svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'&gt;&lt;text y='.9em' font-size='90'&gt;👨‍💻&lt;/text&gt;&lt;/svg&gt;">
+
+    <title>François Eoche - Web Cabinetmaker</title>
+</head>
+<body style="line-height: 1.6; letter-spacing: 0em; word-spacing: 0em;">
+<!-- Skip to main content for accessibility -->
+<a href="#main-content" class="skip-link">Skip to main content</a>
+
+<!-- Navigation -->
+<header role="banner">
+    <nav class="nav-container" role="navigation" aria-label="Main navigation">
+        <a class="nav-brand" href="#" aria-label="Go to top of page">
+            <h1>François Eoche</h1>
+        </a>
+        <ul class="nav-menu" role="menubar">
+            <li role="none">
+                <a href="#experience" class="nav-link" role="menuitem">Experience</a>
+            </li>
+            <li role="none">
+                <a href="#diplomas" class="nav-link active" role="menuitem">Diplomas</a>
+            </li>
+            <li role="none">
+                <a href="#projects" class="nav-link" role="menuitem">Projects</a>
+            </li>
+            <li role="none">
+                <a href="#extras" class="nav-link" role="menuitem">Extras</a>
+            </li>
+            <li role="none">
+                <a href="#contact" class="nav-link" role="menuitem">Contact</a>
+            </li>
+        </ul>
+        <div class="nav-actions">
+            <button id="accessibility-menu-toggle" class="accessibility-menu-btn" aria-label="Open accessibility settings" aria-expanded="false" aria-controls="accessibility-dialog">
+                <span aria-hidden="true">⚙️</span>
+                <span class="btn-label">Accessibility</span>
+            </button>
+            <button class="nav-toggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="nav-menu">
+                <span class="hamburger"></span>
+                <span class="hamburger"></span>
+                <span class="hamburger"></span>
+            </button>
+        </div>
+    </nav>
+</header>
+
+<!-- Accessibility Dialog -->
+<dialog id="accessibility-dialog" class="accessibility-dialog" role="dialog" aria-labelledby="accessibility-title">
+    <div class="dialog-header">
+        <h2 id="accessibility-title">Accessibility Settings</h2>
+        <button id="close-dialog" class="close-dialog-btn" aria-label="Close accessibility settings">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+    <div class="dialog-content">
+        <div class="accessibility-section">
+            <h3>Display Settings</h3>
+            <div class="accessibility-controls">
+                <button id="font-size-toggle" class="accessibility-btn" aria-label="Toggle font size" aria-expanded="true">
+                    <span aria-hidden="true">A</span>
+                    <span class="btn-label">Font Size</span>
+                </button>
+                <button id="dyslexic-font-toggle" class="accessibility-btn" aria-label="Toggle dyslexic font" aria-expanded="false">
+                    <span aria-hidden="true">📖</span>
+                    <span class="btn-label">Dyslexic Font</span>
+                </button>
+                <button id="animation-toggle" class="accessibility-btn" aria-label="Toggle animations" aria-expanded="false">
+                    <span aria-hidden="true">⏸️</span>
+                    <span class="btn-label">Animations</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="accessibility-section">
+            <h3>Theme</h3>
+            <div class="theme-switcher" role="group" aria-label="Select theme">
+                <button id="theme-light" class="theme-option" aria-label="Light theme" aria-pressed="false" data-theme="light">
+                    <span aria-hidden="true">☀️</span>
+                    <span class="theme-label">Light</span>
+                </button>
+                <button id="theme-dark" class="theme-option" aria-label="Dark theme" aria-pressed="true" data-theme="dark">
+                    <span aria-hidden="true">🌙</span>
+                    <span class="theme-label">Dark</span>
+                </button>
+                <button id="theme-inverted" class="theme-option" aria-label="Inverted contrast theme" aria-pressed="false" data-theme="inverted-contrast">
+                    <span aria-hidden="true">🔄</span>
+                    <span class="theme-label">Inverted</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="accessibility-section">
+            <h3>Color Customization</h3>
+            <div class="custom-color-section">
+                <div class="custom-color-input-group">
+                    <label for="primary-color-picker" class="color-input-label">Primary Color:</label>
+                    <div class="color-input-wrapper">
+                        <input type="color" id="primary-color-picker" class="color-picker" value="#2563eb" aria-label="Choose primary color">
+                        <input type="text" id="primary-color-hex" class="color-hex-input" value="#2563eb" placeholder="#000000" aria-label="Enter primary hex color code" maxlength="7">
+                        <button id="apply-primary-color" class="apply-color-btn" aria-label="Apply primary color">Apply</button>
+                    </div>
+                </div>
+                <div class="custom-color-input-group">
+                    <label for="background-color-picker" class="color-input-label">Background Color:</label>
+                    <div class="color-input-wrapper">
+                        <input type="color" id="background-color-picker" class="color-picker" value="#ffffff" aria-label="Choose background color">
+                        <input type="text" id="background-color-hex" class="color-hex-input" value="#ffffff" placeholder="#FFFFFF" aria-label="Enter background hex color code" maxlength="7">
+                        <button id="apply-background-color" class="apply-color-btn" aria-label="Apply background color">Apply</button>
+                    </div>
+                </div>
+                <div class="custom-color-input-group">
+                    <label for="text-color-picker" class="color-input-label">Text Color:</label>
+                    <div class="color-input-wrapper">
+                        <input type="color" id="text-color-picker" class="color-picker" value="#1e293b" aria-label="Choose text color">
+                        <input type="text" id="text-color-hex" class="color-hex-input" value="#1e293b" placeholder="#000000" aria-label="Enter text hex color code" maxlength="7">
+                        <button id="apply-text-color" class="apply-color-btn" aria-label="Apply text color">Apply</button>
+                    </div>
+                </div>
+                <div class="color-reset-section">
+                    <button id="reset-colors" class="reset-colors-btn" aria-label="Reset all colors to defaults">
+                        <span aria-hidden="true">↺</span>
+                        <span class="btn-label">Reset Colors</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="accessibility-section">
+            <h3>Text Settings</h3>
+            <div class="text-setting-presets">
+                <button class="preset-btn" data-preset="normal">Normal</button>
+                <button class="preset-btn" data-preset="wcag-aa">Large</button>
+                <button class="preset-btn" data-preset="wcag-aaa">Larger</button>
+                <button class="preset-btn" data-preset="low-vision">Low Vision</button>
+            </div>
+            <div class="text-settings-panel">
+                <div class="text-setting-control">
+                    <label for="font-size-slider">Font Size</label>
+                    <input type="range" id="font-size-slider" min="14" max="24" value="16" step="1">
+                    <div class="text-setting-value" id="font-size-value">16px</div>
+                </div>
+                <div class="text-setting-control">
+                    <label for="line-height-slider">Line Height</label>
+                    <input type="range" id="line-height-slider" min="1.2" max="2.5" value="1.6" step="0.1">
+                    <div class="text-setting-value" id="line-height-value">1.6</div>
+                </div>
+                <div class="text-setting-control">
+                    <label for="letter-spacing-slider">Letter Spacing</label>
+                    <input type="range" id="letter-spacing-slider" min="0" max="0.2" value="0" step="0.01">
+                    <div class="text-setting-value" id="letter-spacing-value">0.00px</div>
+                </div>
+                <div class="text-setting-control">
+                    <label for="word-spacing-slider">Word Spacing</label>
+                    <input type="range" id="word-spacing-slider" min="0" max="0.3" value="0" step="0.01">
+                    <div class="text-setting-value" id="word-spacing-value">0.00px</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</dialog>
+
+<!-- Main content -->
+<main id="main-content" role="main">
+    <!-- Hero Section -->
+    <section class="hero" aria-labelledby="hero-title">
+        <div class="container">
+            <h1 id="hero-title" class="hero-title">
+                <span class="greeting">Hello, I'm</span>
+                <span class="name">François Eoche</span>
+                <span class="role">Full Stack Developer &amp; Designer</span>
+            </h1>
+            <p class="hero-description">
+                Passionate about creating beautiful, performant, and accessible web experiences.
+                Specializing in modern JavaScript frameworks and responsive design.
+            </p>
+            <div class="hero-actions">
+                <a href="#contact" class="btn btn-primary">Get in Touch</a>
+                <a href="#projects" class="btn btn-secondary">View Projects</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section id="experience" class="section" aria-labelledby="experience-title">
+        <div class="container">
+            <h2 id="experience-title" class="section-title">Experience</h2>
+            <div class="timeline" id="experience-timeline">
+                <article class="timeline-item" role="article">
+                    <div class="timeline-date">Since August 2017</div>
+                    <div class="timeline-content">
+                        <h3>IT Technical Leader</h3>
+                        <h4><a class="cv-item_link" href="http://ovh.com/" onclick="window.open(this.href); return false;">OVHcloud</a></h4>
+                        <ul class="missions">
+                            <li>In charge of OVHcloud Design System development</li>
+                            <li>Order funnel front-end development</li>
+                            <li>Web Accessibility representative</li>
+                        </ul>
+                    </div>
+                </article>
+
+                <article class="timeline-item" role="article">
+                    <div class="timeline-date">August 2014 - August 2017</div>
+                    <div class="timeline-content">
+                        <h3>Research Engineer</h3>
+                        <h4><a class="cv-item_link" href="http://niji.fr/" onclick="window.open(this.href); return false;">Niji</a></h4>
+                        <ul class="missions">
+                            <li>Web/Mobile site/Hybrid app integration</li>
+                            <li>Corrective maintenance</li>
+                            <li>Monitor technological developments</li>
+                        </ul>
+                    </div>
+                </article>
+
+                <article class="timeline-item" role="article">
+                    <div class="timeline-date">February 2014 - August 2014</div>
+                    <div class="timeline-content">
+                        <h3>End-of-studies Internship<div class="subtitle">Study and Web/Mobile site development</div></h3>
+                        <h4><a class="cv-item_link" href="http://niji.fr/" onclick="window.open(this.href); return false;">Niji</a></h4>
+                        <ul class="missions">
+                            <li>Integration in already-existing development teams</li>
+                            <li>Web/Mobile site/Hybrid app integration</li>
+                            <li>Corrective maintenance</li>
+                        </ul>
+                    </div>
+                </article>
+
+                <article class="timeline-item" role="article">
+                    <div class="timeline-date">May 2013 - August 2013</div>
+                    <div class="timeline-content">
+                        <h3>1st year of Masters Internship<div class="subtitle">Integrate the IT department</div></h3>
+                        <h4><a class="cv-item_link" href="http://metropole.rennes.fr/" onclick="window.open(this.href); return false;">Ville de Rennes</a></h4>
+                        <ul class="missions">
+                            <li><abbr title="Extract Transform Load">ETL</abbr> of distant raw data to adapt in Rennes Métropole libraries' database system</li>
+                            <li>Addition of rich media support in documentary notes</li>
+                            <li>IT department</li>
+                        </ul>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- Diplomas Section -->
+    <section id="diplomas" class="section section-alt" aria-labelledby="diplomas-title">
+        <div class="container">
+            <h2 id="diplomas-title" class="section-title">Education &amp; Certifications</h2>
+            <div class="diplomas-grid" id="diplomas-grid">
+                <article class="diploma-card" role="article">
+                    <div class="diploma-icon">🎓</div>
+                    <h3>Masters degree Diploma</h3>
+                    <div class="diploma-date">Since August 2014</div>
+                    <div class="diploma-place"><a class="cv-item_link" href="http://www.istic.univ-rennes1.fr/" onclick="window.open(this.href); return false;">ISTIC – University of Rennes 1</a></div>
+                    <ul class="diploma-details">
+                        <li>Special emphasis on interface ergonomics and Information and Communications Technology.</li>
+                        <li>With "Good" distinction</li>
+                    </ul>
+                </article>
+
+                <article class="diploma-card" role="article">
+                    <div class="diploma-icon">🎓</div>
+                    <h3><a class="cv-item_link" href="http://www.certification-cles.fr" onclick="window.open(this.href); return false;">"Certificat de compétences en Langues de l'Enseignement Supérieur"</a><div class="subtitle">Level 2 diploma</div></h3>
+                    <div class="diploma-date">Since April 2014</div>
+                    <div class="diploma-place"><a class="cv-item_link" href="http://www.istic.univ-rennes1.fr/" onclick="window.open(this.href); return false;">ISTIC – University of Rennes 1</a></div>
+                    <ul class="diploma-details">
+                        <li>Academic equivalent of the TOEIC test</li>
+                        <li>~785+ TOEIC points</li>
+                    </ul>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="section" aria-labelledby="projects-title">
+        <div class="container">
+            <h2 id="projects-title" class="section-title">Featured Projects</h2>
+            <div class="projects-grid" id="projects-grid">
+                <article class="project-card" role="article">
+                    <div class="project-image">
+                        <div class="project-placeholder">🚀</div>
+                    </div>
+                    <div class="project-content">
+                        <h3>OVHcloud - Design System</h3>
+                        <div class="project-date">Since July 2021</div>
+                        <p>OVHcloud Design System is a collection of reusable components, designed to be used mostly in the OVHcloud platform.</p>
+                        <a href="https://www.ovh.com/fr/order/dedicated" target="_blank" rel="noopener noreferrer" class="project-link">View Project</a>
+                    </div>
+                </article>
+
+                <article class="project-card" role="article">
+                    <div class="project-image">
+                        <div class="project-placeholder">🚀</div>
+                    </div>
+                    <div class="project-content">
+                        <h3>OVHcloud - Order funnel</h3>
+                        <div class="project-date">January 2018 - June 2021</div>
+                        <p>Responsive website for customer ordering OVHcloud's services</p>
+                        <a href="https://www.ovh.com/fr/order/dedicated" target="_blank" rel="noopener noreferrer" class="project-link">View Project</a>
+                    </div>
+                </article>
+
+                <article class="project-card" role="article">
+                    <div class="project-image">
+                        <div class="project-placeholder">🚀</div>
+                    </div>
+                    <div class="project-content">
+                        <h3>OVH - Manager</h3>
+                        <div class="project-date">September 2017 - January 2018</div>
+                        <p>Responsive website for customer management with OVH's services</p>
+                        <a href="https://www.ovhtelecom.fr/manager/index.html#/" target="_blank" rel="noopener noreferrer" class="project-link">View Project</a>
+                    </div>
+                </article>
+
+                <article class="project-card" role="article">
+                    <div class="project-image">
+                        <div class="project-placeholder">🚀</div>
+                    </div>
+                    <div class="project-content">
+                        <h3>RegionsJob</h3>
+                        <div class="project-date">August 2017 - January 2017</div>
+                        <p>Hybrid app on iOS/Android for job listing/job searching</p>
+                        <a href="https://www.regionsjob.com/" target="_blank" rel="noopener noreferrer" class="project-link">View Project</a>
+                    </div>
+                </article>
+
+                <article class="project-card" role="article">
+                    <div class="project-image">
+                        <div class="project-placeholder">🚀</div>
+                    </div>
+                    <div class="project-content">
+                        <h3>CableVision<br><em>Optimum</em></h3>
+                        <div class="project-date">January 2016 - November 2015</div>
+                        <p>Responsive website presenting TV, mobile pre-paid and Internet services of the american company</p>
+                        <a href="http://www.optimum.com/" target="_blank" rel="noopener noreferrer" class="project-link">View Project</a>
+                    </div>
+                </article>
+
+                <article class="project-card" role="article">
+                    <div class="project-image">
+                        <div class="project-placeholder">🚀</div>
+                    </div>
+                    <div class="project-content">
+                        <h3>Ionic<br><em>The Hybrid Theory</em></h3>
+                        <div class="project-date">Since November 2015</div>
+                        <p>Lecture about experience feedback regarding hybrid development in 2015, which took place at <a href="http://rennesjs.org" target="_blank">RennesJS</a></p>
+                        <a href="http://slides.com/feoche/ionic-the-hybrid-theory" target="_blank" rel="noopener noreferrer" class="project-link">View Project</a>
+                    </div>
+                </article>
+
+                <article class="project-card" role="article">
+                    <div class="project-image">
+                        <div class="project-placeholder">🚀</div>
+                    </div>
+                    <div class="project-content">
+                        <h3>Aon<br><em>Aon Auto</em></h3>
+                        <div class="project-date">November 2015 - October 2015</div>
+                        <p>Hybrid app on iOS/Android for insurance handling on vehicule fleets</p>
+                        <a href="https://www.aonassurances.com/Particuliers/Assurance/Gamme_auto/Auto_classique" target="_blank" rel="noopener noreferrer" class="project-link">View Project</a>
+                    </div>
+                </article>
+
+                <article class="project-card" role="article">
+                    <div class="project-image">
+                        <div class="project-placeholder">🚀</div>
+                    </div>
+                    <div class="project-content">
+                        <h3>Virgin Mobile<br><em>eBoutique</em></h3>
+                        <div class="project-date">October 2015 - May 2015</div>
+                        <p>eShop presenting phone, mobile pre-paid and Internet services with order funnel</p>
+                        <a href="http://virginmobile.fr" target="_blank" rel="noopener noreferrer" class="project-link">View Project</a>
+                    </div>
+                </article>
+
+                <article class="project-card" role="article">
+                    <div class="project-image">
+                        <div class="project-placeholder">🚀</div>
+                    </div>
+                    <div class="project-content">
+                        <h3>ERDF<br><em>A mes côtés</em></h3>
+                        <div class="project-date">May 2015 - March 2015</div>
+                        <p>Hybrid app for iOS, Android and Windows Phone displaying access to self-diagnostic in case of power outage, risk prevention and contact infos</p>
+                        <a href="https://itunes.apple.com/fr/app/a-mes-cotes/id885458976?mt=8" target="_blank" rel="noopener noreferrer" class="project-link">View Project</a>
+                    </div>
+                </article>
+
+                <article class="project-card" role="article">
+                    <div class="project-image">
+                        <div class="project-placeholder">🚀</div>
+                    </div>
+                    <div class="project-content">
+                        <h3>Natixis<br><em>Rouler Serein</em></h3>
+                        <div class="project-date">April 2015 - December 2014</div>
+                        <p>Hybrid app for iOS and Android suggesting insurance simulation, insurance claim and customer service for customer vehicles</p>
+                        <a href="https://itunes.apple.com/fr/app/rouler-serein/id547607719?mt=8" target="_blank" rel="noopener noreferrer" class="project-link">View Project</a>
+                    </div>
+                </article>
+
+                <article class="project-card" role="article">
+                    <div class="project-image">
+                        <div class="project-placeholder">🚀</div>
+                    </div>
+                    <div class="project-content">
+                        <h3>Edelia<br><em>Showcase site</em></h3>
+                        <div class="project-date">Since November 2014</div>
+                        <p>Responsive website displaying Edelia professional offers for energy</p>
+                        <a href="http://www.edelia.fr" target="_blank" rel="noopener noreferrer" class="project-link">View Project</a>
+                    </div>
+                </article>
+
+                <article class="project-card" role="article">
+                    <div class="project-image">
+                        <div class="project-placeholder">🚀</div>
+                    </div>
+                    <div class="project-content">
+                        <h3>Bouygues Telecom<br><em>B.tv - Chromecast</em></h3>
+                        <div class="project-date">October 2014 - September 2014</div>
+                        <p>Chromecast app linked to the BBox (Bouygues Telecom) in order to display compatible TV channels/replays</p>
+                        <a href="http://www.services.bouyguestelecom.fr/television/services-tv/b-tv" target="_blank" rel="noopener noreferrer" class="project-link">View Project</a>
+                    </div>
+                </article>
+
+                <article class="project-card" role="article">
+                    <div class="project-image">
+                        <div class="project-placeholder">🚀</div>
+                    </div>
+                    <div class="project-content">
+                        <h3>Femmes de Bretagne<br><em>Social network</em></h3>
+                        <div class="project-date">October 2014 - July 2014</div>
+                        <p>Social network creation project for women entrepreneurs in Brittany</p>
+                        <a href="http://femmesdebretagne.fr" target="_blank" rel="noopener noreferrer" class="project-link">View Project</a>
+                    </div>
+                </article>
+
+                <article class="project-card" role="article">
+                    <div class="project-image">
+                        <div class="project-placeholder">🚀</div>
+                    </div>
+                    <div class="project-content">
+                        <h3>Banque Populaire<br><em>Showcase mobile site</em></h3>
+                        <div class="project-date">September 2014 - March 2014</div>
+                        <p>Responsive mobile website presenting Banque Populaire offers — related to the desktop website</p>
+                        <a href="http://mobile.banquepopulaire.fr" target="_blank" rel="noopener noreferrer" class="project-link">View Project</a>
+                    </div>
+                </article>
+
+                <article class="project-card" role="article">
+                    <div class="project-image">
+                        <div class="project-placeholder">🚀</div>
+                    </div>
+                    <div class="project-content">
+                        <h3>Bibliothèque de Rennes Métropole<br><em>Encore catalog</em></h3>
+                        <div class="project-date">Since July 2013</div>
+                        <p>Enhancement of documentary notes into the web catalog of Rennes Métropole libraries <a href="http://opac.si.leschampslibres.fr" target="_blank">(Encore)</a> thanks to enriched content coming from <a href="http://www.babelio.com" target="_blank">Babelio</a> database</p>
+                        <a href="http://opac.si.leschampslibres.fr/" target="_blank" rel="noopener noreferrer" class="project-link">View Project</a>
+                    </div>
+                </article>
+
+                <article class="project-card" role="article">
+                    <div class="project-image">
+                        <div class="project-placeholder">🚀</div>
+                    </div>
+                    <div class="project-content">
+                        <h3>Master 2<br><em>Android app : OuSuij</em></h3>
+                        <div class="project-date">November 2013 - August 2013</div>
+                        <p>Creation of an Android app/game based on Google Maps and Google Street View APIs (vaguely similar to <a href="https://geoguessr.com" target="_blank">GeoGuessr</a> game)</p>
+                    </div>
+                </article>
+
+                <article class="project-card" role="article">
+                    <div class="project-image">
+                        <div class="project-placeholder">🚀</div>
+                    </div>
+                    <div class="project-content">
+                        <h3>Master 1 dissertation<br><em>Touchscreens</em></h3>
+                        <div class="project-date">May 2014 - December 2013</div>
+                        <p>Presentation of a report summarizing the numerous usages around new tech in touchscreen scale</p>
+                    </div>
+                </article>
+
+                <article class="project-card" role="article">
+                    <div class="project-image">
+                        <div class="project-placeholder">🚀</div>
+                    </div>
+                    <div class="project-content">
+                        <h3>Master 1<br><em>&lt;IMG++&gt; project</em></h3>
+                        <div class="project-date">April 2013 - August 2012</div>
+                        <p>Creation of a special HTML5-compatible tag that can handle "enhanced" pictures (HDR format, panoramas, 3D, etc.)</p>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- Extras Section -->
+    <section id="extras" class="section section-alt" aria-labelledby="extras-title">
+        <div class="container">
+            <h2 id="extras-title" class="section-title">Extras &amp; Activities</h2>
+            <div class="extras-grid" id="extras-grid">
+                <div class="extra-item">
+                    <div class="extra-icon">🌟</div>
+                    <h3><a href="https://rennesjs.org" onclick="window.open(this.href); return false;">RennesJS</a> Staff</h3>
+                    <div class="extra-date">Since July 2017</div>
+                    <ul class="extra-details">
+                        <li>Meetup organization</li>
+                        <li>In touch with <a href="http://lafrenchtech-rennes.fr" onclick="window.open(this.href); return false;">French Tech</a></li>
+                        <li>Monitor technological developments</li>
+                    </ul>
+                </div>
+
+                <div class="extra-item">
+                    <div class="extra-icon">🌟</div>
+                    <h3><a href="https://indieco.xyz" onclick="window.open(this.href); return false;">Indie Collective</a> Secretary &amp; Founder</h3>
+                    <div class="extra-date">Since March 2017</div>
+                    <ul class="extra-details">
+                        <li><a href="https://stunfest.com/" onclick="window.open(this.href); return false;">Stunfest</a> main staff</li>
+                        <li>Game Jams organizer</li>
+                    </ul>
+                </div>
+
+                <div class="extra-item">
+                    <div class="extra-icon">🌟</div>
+                    <h3><a href="https://speedrennes.com" onclick="window.open(this.href); return false;">SpeedRennes</a> Founder</h3>
+                    <div class="extra-date">Since December 2016</div>
+                    <ul class="extra-details">
+                        <li>Game speedrun commentary host</li>
+                        <li>Conferences about speedrun organizer</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="section" aria-labelledby="contact-title">
+        <div class="container">
+            <h2 id="contact-title" class="section-title">Get In Touch</h2>
+            <div class="contact-content">
+                <div class="contact-info">
+                    <p>I'm always interested in hearing about new opportunities and exciting projects. Feel free to reach out!</p>
+                    <div class="contact-methods">
+                        <div class="contact-method">
+                            <span class="contact-icon">💼</span>
+                            <a href="https://www.linkedin.com/in/francois-eoche" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                        </div>
+
+                        <div class="contact-method">
+                            <span class="contact-icon">✉️</span>
+                            <a href="mailto:francoiseoche at gmail dot com" target="_blank" rel="noopener noreferrer">Mail</a>
+                        </div>
+
+                        <div class="contact-method">
+                            <span class="contact-icon">🐦</span>
+                            <a href="https://twitter.com/francoiseoche" target="_blank" rel="noopener noreferrer">Twitter</a>
+                        </div>
+
+                        <div class="contact-method">
+                            <span class="contact-icon">🐙</span>
+                            <a href="https://github.com/feoche" target="_blank" rel="noopener noreferrer">GitHub</a>
+                        </div>
+
+                        <div class="contact-method">
+                            <span class="contact-icon">🎨</span>
+                            <a href="https://codepen.io/feoche" target="_blank" rel="noopener noreferrer">Codepen</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<!-- Footer -->
+<footer role="contentinfo">
+    <div class="container">
+        <p>&copy; 2024 François Eoche. Built with passion and attention to detail.</p>
+        <p>This website is optimized for performance and accessibility.</p>
+    </div>
+</footer>
+
+<!-- Scripts -->
+<script src="theme-switcher-optimized.js" defer></script>
+<script src="script-optimized.js" defer></script>
+</body>
+</html>
