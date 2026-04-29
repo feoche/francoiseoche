@@ -1,0 +1,14 @@
+{
+  "name": "francoiseoche-portfolio",
+  "version": "1.0.0",
+  "description": "Personal portfolio static site with hot-reload dev script",
+  "private": true,
+  "scripts": {
+    "build": "node ./scripts/build.mjs",
+    "dev": "browser-sync start --config bs-config.js",
+    "start": "npm run dev"
+  },
+  "devDependencies": {
+    "browser-sync": "^3.0.4"
+  }
+}
