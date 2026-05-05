@@ -1,4 +1,5 @@
-import { access, copyFile, cp, mkdir, readFile, rm, writeFile } from 'node:fs/promises';
+import { createHash } from 'node:crypto';
+import { access, copyFile, cp, mkdir, readFile, readdir, rm, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -6,8 +7,26 @@ const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 const outputDir = path.join(rootDir, 'docs');
 
 const requiredFiles = ['index.html', 'index.js', 'styles.css'];
-const optionalFiles = ['404.html', 'favicon.ico', 'robots.txt', 'sitemap.xml', 'manifest.webmanifest', 'CNAME'];
-const optionalDirectories = ['assets', 'images', 'fonts', 'public', 'js'];
+const optionalFiles = ['404.html', 'favicon.ico', 'robots.txt', 'sitemap.xml', 'manifest.webmanifest', 'CNAME', '_headers'];
+const optionalDirectories = ['assets', 'images', 'fonts', 'public', 'js', '.well-known', 'api-docs'];
+const agentSkillMetadata = {
+  'api-catalog.md': {
+    name: 'API catalog discovery',
+    description: 'Explains the published API catalog, OpenAPI description, and supporting API endpoints.'
+  },
+  'robots-txt.md': {
+    name: 'Robots.txt discovery',
+    description: 'Describes crawl rules, AI crawler policies, and Content-Signal directives.'
+  },
+  'sitemap.md': {
+    name: 'Sitemap discovery',
+    description: 'Documents the canonical sitemap and how it is published during the build.'
+  },
+  'webmcp.md': {
+    name: 'WebMCP discovery',
+    description: 'Describes the browser-side tools exposed through the WebMCP API.'
+  }
+};
 
 async function exists(targetPath) {
   try {
@@ -29,6 +48,368 @@ async function loadData() {
     .replace(/^[\s\S]*?window\.portfolioData\s*=\s*/, '')
     .replace(/;\s*$/, '');
   return new Function(`return (${trimmed})`)();
+}
+
+async function loadSiteConfig() {
+  const raw = await readFile(path.join(rootDir, 'site.config.json'), 'utf-8');
+  return JSON.parse(raw);
+}
+
+function toAbsoluteUrl(siteUrl, relativePath = '/') {
+  const target = relativePath === '/' ? '' : relativePath.replace(/^\//, '');
+  return new URL(target, siteUrl).toString();
+}
+
+function decodeEntities(value = '') {
+  return value
+    .replace(/<br\s*\/?>/gi, '\n')
+    .replace(/&nbsp;/g, ' ')
+    .replace(/&amp;/g, '&')
+    .replace(/&copy;/g, '©')
+    .replace(/&emsp;/g, ' — ')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'");
+}
+
+function stripHtml(value = '') {
+  return decodeEntities(value)
+    .replace(/<[^>]+>/g, '')
+    .replace(/\r/g, '')
+    .replace(/\n{3,}/g, '\n\n')
+    .replace(/[ \t]{2,}/g, ' ')
+    .trim();
+}
+
+function renderContentSignal(siteConfig) {
+  const { aiTrain, search, aiInput } = siteConfig.contentSignals;
+  return `Content-Signal: ai-train=${aiTrain}, search=${search}, ai-input=${aiInput}`;
+}
+
+function renderRobotsTxt(siteConfig) {
+  const lines = ['User-agent: *'];
+
+  siteConfig.robots.allow.forEach((allowedPath) => lines.push(`Allow: ${allowedPath}`));
+  siteConfig.robots.disallow.forEach((blockedPath) => lines.push(`Disallow: ${blockedPath}`));
+  lines.push(renderContentSignal(siteConfig), '');
+
+  siteConfig.aiCrawlers.forEach((crawler) => {
+    lines.push(`User-agent: ${crawler.name}`);
+
+    (crawler.allow.length ? crawler.allow : (crawler.disallow.length ? [] : ['/'])).forEach((allowedPath) => {
+      lines.push(`Allow: ${allowedPath}`);
+    });
+
+    crawler.disallow.forEach((blockedPath) => {
+      lines.push(`Disallow: ${blockedPath}`);
+    });
+
+    lines.push(renderContentSignal(siteConfig), '');
+  });
+
+  lines.push(`Sitemap: ${toAbsoluteUrl(siteConfig.siteUrl, siteConfig.publishPaths.sitemap)}`);
+
+  return `${lines.join('\n').trim()}\n`;
+}
+
+function renderSitemapXml(siteConfig, buildTime) {
+  const priorities = {
+    '/': '1.0',
+    '/api-docs/': '0.6'
+  };
+
+  const urls = siteConfig.sitemapPages.map((pagePath) => `  <url>\n    <loc>${toAbsoluteUrl(siteConfig.siteUrl, pagePath)}</loc>\n    <lastmod>${buildTime.toISOString()}</lastmod>\n    <changefreq>weekly</changefreq>\n    <priority>${priorities[pagePath] || '0.5'}</priority>\n  </url>`);
+
+  return [
+    '<?xml version="1.0" encoding="UTF-8"?>',
+    '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
+    ...urls,
+    '</urlset>',
+    ''
+  ].join('\n');
+}
+
+function renderMarkdown(data, siteConfig) {
+  const lines = [
+    `# ${data.hero.name}`,
+    '',
+    `> ${data.hero.role}`,
+    '',
+    stripHtml(siteConfig.siteDescription),
+    ''
+  ];
+
+  data.hero.descriptions.forEach((paragraph) => {
+    lines.push(stripHtml(paragraph), '');
+  });
+
+  const sectionDefinitions = [
+    ['Experience', data.experience, (item) => [
+      `### ${stripHtml(item.title)} — ${stripHtml(item.date)}`,
+      `- Company: ${stripHtml(item.company.name)}`,
+      ...item.missions.map((mission) => `- ${stripHtml(mission)}`)
+    ]],
+    ['Education & Certifications', data.diplomas, (item) => [
+      `### ${stripHtml(item.title)} — ${stripHtml(item.date)}`,
+      `- Place: ${stripHtml(item.place.name)}`,
+      ...item.details.map((detail) => `- ${stripHtml(detail)}`)
+    ]],
+    ['Featured Projects', data.projects, (item) => [
+      `### ${stripHtml(item.title)} — ${stripHtml(item.date)}`,
+      item.subtitle ? `- Subtitle: ${stripHtml(item.subtitle)}` : null,
+      `- Description: ${stripHtml(item.description)}`,
+      item.url ? `- URL: ${item.url}` : null
+    ].filter(Boolean)],
+    ['Talks & Lectures', data.talks, (item) => [
+      `### ${stripHtml(item.title)} — ${stripHtml(item.date)}`,
+      item.event ? `- Event: ${stripHtml(item.event.name)}` : null,
+      `- Description: ${stripHtml(item.description)}`,
+      item.link ? `- ${stripHtml(item.link.label)}: ${item.link.url}` : null
+    ].filter(Boolean)],
+    ['Extras & Activities', data.extras, (item) => [
+      `### ${stripHtml(item.title)} — ${stripHtml(item.date)}`,
+      item.subtitle ? `- Subtitle: ${stripHtml(item.subtitle)}` : null,
+      ...item.details.map((detail) => `- ${stripHtml(detail)}`),
+      item.url ? `- URL: ${item.url}` : null
+    ].filter(Boolean)]
+  ];
+
+  sectionDefinitions.forEach(([heading, items, renderItem]) => {
+    lines.push(`## ${heading}`, '');
+    items.forEach((item) => {
+      lines.push(...renderItem(item), '');
+    });
+  });
+
+  lines.push('## Contact', '');
+  lines.push(stripHtml(data.contact.intro), '');
+  data.contact.methods.forEach((method) => {
+    lines.push(`- ${method.label}: ${method.url}`);
+  });
+
+  lines.push('', stripHtml(data.footer.text), '');
+
+  return lines.join('\n');
+}
+
+function buildProfileDocument(data, siteConfig) {
+  return {
+    site: {
+      name: siteConfig.siteName,
+      url: siteConfig.siteUrl,
+      description: siteConfig.siteDescription,
+      language: siteConfig.defaultLanguage
+    },
+    hero: {
+      name: data.hero.name,
+      role: data.hero.role,
+      descriptions: data.hero.descriptions.map((paragraph) => stripHtml(paragraph))
+    },
+    counts: {
+      experience: data.experience.length,
+      diplomas: data.diplomas.length,
+      projects: data.projects.length,
+      talks: data.talks.length,
+      extras: data.extras.length
+    },
+    contact: data.contact.methods,
+    sections: {
+      experience: data.experience.map((item) => ({
+        title: stripHtml(item.title),
+        date: stripHtml(item.date),
+        company: stripHtml(item.company.name),
+        missions: item.missions.map((mission) => stripHtml(mission))
+      })),
+      projects: data.projects.map((item) => ({
+        title: stripHtml(item.title),
+        subtitle: item.subtitle ? stripHtml(item.subtitle) : null,
+        date: stripHtml(item.date),
+        description: stripHtml(item.description),
+        url: item.url || null
+      })),
+      talks: data.talks.map((item) => ({
+        title: stripHtml(item.title),
+        date: stripHtml(item.date),
+        event: item.event ? stripHtml(item.event.name) : null,
+        description: stripHtml(item.description),
+        link: item.link || null
+      }))
+    }
+  };
+}
+
+function buildHealthDocument(siteConfig, buildTime) {
+  return {
+    status: 'ok',
+    service: 'portfolio-api',
+    public: true,
+    site: siteConfig.siteUrl,
+    generatedAt: buildTime.toISOString()
+  };
+}
+
+function buildOpenApiDocument(siteConfig) {
+  return {
+    openapi: '3.1.0',
+    info: {
+      title: siteConfig.api.title,
+      version: siteConfig.api.version,
+      summary: siteConfig.api.summary
+    },
+    servers: [
+      { url: siteConfig.siteUrl }
+    ],
+    paths: {
+      [siteConfig.publishPaths.profileApi]: {
+        get: {
+          operationId: 'getPortfolioProfile',
+          summary: 'Get public portfolio metadata.',
+          responses: {
+            200: {
+              description: 'Public portfolio profile document.',
+              content: {
+                'application/json': {
+                  schema: {
+                    type: 'object'
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      [siteConfig.publishPaths.healthApi]: {
+        get: {
+          operationId: 'getApiHealth',
+          summary: 'Get the public API health document.',
+          responses: {
+            200: {
+              description: 'Health/status document.',
+              content: {
+                'application/json': {
+                  schema: {
+                    type: 'object',
+                    properties: {
+                      status: { type: 'string' },
+                      service: { type: 'string' },
+                      public: { type: 'boolean' },
+                      site: { type: 'string', format: 'uri' },
+                      generatedAt: { type: 'string', format: 'date-time' }
+                    },
+                    required: ['status', 'service', 'public', 'site', 'generatedAt']
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  };
+}
+
+function buildApiCatalog(siteConfig) {
+  return {
+    linkset: [
+      {
+        anchor: toAbsoluteUrl(siteConfig.siteUrl, '/api/'),
+        item: [
+          {
+            href: toAbsoluteUrl(siteConfig.siteUrl, siteConfig.publishPaths.openApi),
+            rel: 'service-desc',
+            type: 'application/openapi+json'
+          },
+          {
+            href: toAbsoluteUrl(siteConfig.siteUrl, siteConfig.publishPaths.apiDocs),
+            rel: 'service-doc',
+            type: 'text/html'
+          },
+          {
+            href: toAbsoluteUrl(siteConfig.siteUrl, siteConfig.publishPaths.healthApi),
+            rel: 'status',
+            type: 'application/json'
+          }
+        ]
+      }
+    ]
+  };
+}
+
+function buildMcpServerCard(siteConfig) {
+  return {
+    serverInfo: {
+      name: siteConfig.mcp.name,
+      version: siteConfig.mcp.version
+    },
+    documentationUrl: toAbsoluteUrl(siteConfig.siteUrl, siteConfig.publishPaths.apiDocs),
+    transports: [
+      {
+        type: 'webmcp',
+        url: siteConfig.siteUrl
+      }
+    ],
+    capabilities: {
+      tools: [
+        'navigate_to_section',
+        'open_accessibility_settings',
+        'set_theme',
+        'get_profile_summary'
+      ]
+    }
+  };
+}
+
+async function writeGeneratedFile(relativePath, content) {
+  const outputPath = path.join(outputDir, ...relativePath.split('/').filter(Boolean));
+  await mkdir(path.dirname(outputPath), { recursive: true });
+  await writeFile(outputPath, content, 'utf-8');
+}
+
+async function writeGeneratedJson(relativePath, value) {
+  await writeGeneratedFile(relativePath, `${JSON.stringify(value, null, 2)}\n`);
+}
+
+function hashSha256(content) {
+  return createHash('sha256').update(content).digest('hex');
+}
+
+async function buildAgentSkillsIndex(siteConfig) {
+  const skillsDir = path.join(rootDir, '.well-known', 'agent-skills');
+  const files = (await readdir(skillsDir)).filter((fileName) => fileName.endsWith('.md')).sort();
+
+  return {
+    $schema: 'https://agentskills.io/schemas/agent-skills-index-v0.2.0.json',
+    skills: await Promise.all(files.map(async (fileName) => {
+      const fileContent = await readFile(path.join(skillsDir, fileName), 'utf-8');
+      const metadata = agentSkillMetadata[fileName] || {
+        name: fileName.replace(/\.md$/, ''),
+        description: 'Agent-facing skill description.'
+      };
+
+      return {
+        name: metadata.name,
+        type: 'text/markdown',
+        description: metadata.description,
+        url: toAbsoluteUrl(siteConfig.siteUrl, `/.well-known/agent-skills/${fileName}`),
+        sha256: hashSha256(fileContent)
+      };
+    }))
+  };
+}
+
+async function writeGeneratedArtifacts(data, siteConfig) {
+  const buildTime = new Date();
+
+  await writeGeneratedFile('robots.txt', renderRobotsTxt(siteConfig));
+  await writeGeneratedFile('sitemap.xml', renderSitemapXml(siteConfig, buildTime));
+  await writeGeneratedFile('index.md', renderMarkdown(data, siteConfig));
+  await writeGeneratedJson('api/profile.json', buildProfileDocument(data, siteConfig));
+  await writeGeneratedJson('api/health.json', buildHealthDocument(siteConfig, buildTime));
+  await writeGeneratedJson('api/openapi.json', buildOpenApiDocument(siteConfig));
+  await writeGeneratedJson('.well-known/api-catalog', buildApiCatalog(siteConfig));
+  await writeGeneratedJson('.well-known/mcp/server-card.json', buildMcpServerCard(siteConfig));
+  await writeGeneratedJson('.well-known/agent-skills/index.json', await buildAgentSkillsIndex(siteConfig));
 }
 
 function renderNavLinks(data) {
@@ -294,12 +675,16 @@ async function copyOptionalDirectories() {
 }
 
 async function build() {
+  const data = await loadData();
+  const siteConfig = await loadSiteConfig();
+
   await rm(outputDir, { recursive: true, force: true });
   await mkdir(outputDir, { recursive: true });
 
   await copyRequiredFiles();
   await copyOptionalFiles();
   await copyOptionalDirectories();
+  await writeGeneratedArtifacts(data, siteConfig);
 
   // Overwrite index.html with flattened (pre-rendered) version
   const flatHtml = await buildFlattenedHtml();

@@ -7,6 +7,7 @@ Minimal single-page portfolio focused on accessibility, browser compatibility, a
 - `index.html` - semantic page markup and content
 - `styles.css` - styles and responsive rules
 - `index.js` - interactive behavior and accessibility controls
+- `site.config.json` - canonical site URL and agent/discovery configuration
 - `bs-config.js` - BrowserSync development config
 - `package.json` - development dependencies and scripts
 
@@ -31,6 +32,20 @@ npm run build
 ```
 
 This generates a `docs/` folder containing the static files ready to publish.
+
+### Published discovery artifacts
+
+The build now generates and publishes:
+
+- `robots.txt` with explicit crawl rules, AI crawler directives, and `Content-Signal` preferences
+- `sitemap.xml` with canonical URLs
+- `index.md` as a markdown rendering of the homepage content
+- `/.well-known/api-catalog` in `application/linkset+json`
+- `/.well-known/mcp/server-card.json`
+- `/.well-known/agent-skills/index.json`
+- `/api/profile.json`, `/api/health.json`, and `/api/openapi.json`
+- `/api-docs/` human-readable API documentation
+- `_headers` as an optional custom-header manifest for hosts such as Netlify or Cloudflare Pages
 
 ## Publish to GitHub Pages
 
@@ -57,6 +72,8 @@ You can also trigger the same deployment manually from the **Actions** tab with 
 - External links open with `target="_blank"` and `rel="noopener noreferrer"`.
 - The build writes a `.nojekyll` file so GitHub Pages serves the output as plain static files.
 - Running `npm run build` locally is still useful when you want to preview the exact deployment output before pushing.
+- The homepage advertises discovery resources with HTML `<link>` elements, but true HTTP `Link` response headers and `Accept: text/markdown` content negotiation are not configurable on GitHub Pages. To support those two features exactly, place the site behind a host or proxy that supports custom response headers and content negotiation.
+- The published JSON API is intentionally public and read-only, so OAuth/OIDC discovery documents are not emitted.
 
 ## Browser support target
 

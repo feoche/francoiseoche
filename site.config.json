@@ -1,0 +1,110 @@
+{
+  "siteUrl": "https://feoche.github.io/francoiseoche/",
+  "siteName": "François Eoche",
+  "siteDescription": "Portfolio showcasing experience, projects, talks, and professional achievements.",
+  "defaultLanguage": "en",
+  "publishPaths": {
+    "markdown": "/index.md",
+    "sitemap": "/sitemap.xml",
+    "apiCatalog": "/.well-known/api-catalog",
+    "skillsIndex": "/.well-known/agent-skills/index.json",
+    "mcpServerCard": "/.well-known/mcp/server-card.json",
+    "apiDocs": "/api-docs/",
+    "openApi": "/api/openapi.json",
+    "profileApi": "/api/profile.json",
+    "healthApi": "/api/health.json"
+  },
+  "sitemapPages": [
+    "/",
+    "/api-docs/"
+  ],
+  "robots": {
+    "allow": [
+      "/",
+      "/assets/",
+      "/js/",
+      "/api/",
+      "/api-docs/",
+      "/.well-known/"
+    ],
+    "disallow": [
+      "/.git/",
+      "/.github/",
+      "/node_modules/",
+      "/scripts/"
+    ]
+  },
+  "contentSignals": {
+    "aiTrain": "no",
+    "search": "yes",
+    "aiInput": "yes"
+  },
+  "aiCrawlers": [
+    {
+      "name": "GPTBot",
+      "allow": [],
+      "disallow": [
+        "/"
+      ]
+    },
+    {
+      "name": "Google-Extended",
+      "allow": [],
+      "disallow": [
+        "/"
+      ]
+    },
+    {
+      "name": "Applebot-Extended",
+      "allow": [],
+      "disallow": [
+        "/"
+      ]
+    },
+    {
+      "name": "CCBot",
+      "allow": [],
+      "disallow": [
+        "/"
+      ]
+    },
+    {
+      "name": "Claude-Web",
+      "allow": [
+        "/"
+      ],
+      "disallow": []
+    },
+    {
+      "name": "OAI-SearchBot",
+      "allow": [
+        "/"
+      ],
+      "disallow": []
+    },
+    {
+      "name": "ChatGPT-User",
+      "allow": [
+        "/"
+      ],
+      "disallow": []
+    },
+    {
+      "name": "PerplexityBot",
+      "allow": [
+        "/"
+      ],
+      "disallow": []
+    }
+  ],
+  "api": {
+    "title": "François Eoche Portfolio API",
+    "version": "1.0.0",
+    "summary": "Read-only public portfolio metadata for agents and integrations."
+  },
+  "mcp": {
+    "name": "francoiseoche-webmcp",
+    "version": "1.0.0"
+  }
+}
+
