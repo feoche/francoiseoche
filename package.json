@@ -6,7 +6,8 @@
   "scripts": {
     "build": "node ./scripts/build.mjs",
     "dev": "browser-sync start --config bs-config.js",
-    "start": "npm run dev"
+    "start": "npm run dev",
+    "test:markdown": "node ./scripts/test-markdown-negotiation.mjs"
   },
   "devDependencies": {
     "browser-sync": "^3.0.4"

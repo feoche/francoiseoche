@@ -12,7 +12,44 @@
     "apiDocs": "/api-docs/",
     "openApi": "/api/openapi.json",
     "profileApi": "/api/profile.json",
-    "healthApi": "/api/health.json"
+    "healthApi": "/api/health.json",
+    "oauthProtectedResource": "/.well-known/oauth-protected-resource"
+  },
+  "authDiscovery": {
+    "enabled": true,
+    "issuer": "https://feoche.github.io/francoiseoche",
+    "authorizationEndpoint": "/oauth/authorize",
+    "tokenEndpoint": "/oauth/token",
+    "jwksUri": "/.well-known/jwks.json",
+    "grantTypesSupported": [
+      "authorization_code",
+      "client_credentials",
+      "refresh_token"
+    ],
+    "responseTypesSupported": [
+      "code"
+    ],
+    "tokenEndpointAuthMethodsSupported": [
+      "private_key_jwt",
+      "client_secret_post"
+    ],
+    "scopesSupported": [
+      "portfolio.read",
+      "profile.read"
+    ],
+    "codeChallengeMethodsSupported": [
+      "S256"
+    ],
+    "protectedResource": {
+      "resource": "https://feoche.github.io/francoiseoche/api/",
+      "authorizationServers": [
+        "https://feoche.github.io/francoiseoche"
+      ],
+      "scopesSupported": [
+        "portfolio.read",
+        "profile.read"
+      ]
+    }
   },
   "sitemapPages": [
     "/",

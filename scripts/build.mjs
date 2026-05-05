@@ -22,6 +22,22 @@ const agentSkillMetadata = {
     name: 'Sitemap discovery',
     description: 'Documents the canonical sitemap and how it is published during the build.'
   },
+  'oauth-discovery.md': {
+    name: 'OAuth and OIDC discovery',
+    description: 'Explains published OAuth 2.0 and OpenID Connect discovery metadata for agents.'
+  },
+  'oauth-protected-resource.md': {
+    name: 'OAuth protected resource metadata',
+    description: 'Describes the published OAuth Protected Resource Metadata document for API authentication discovery.'
+  },
+  'link-headers.md': {
+    name: 'Link headers discovery',
+    description: 'Lists homepage Link response headers used for machine discovery of key resources.'
+  },
+  'markdown-negotiation.md': {
+    name: 'Markdown negotiation',
+    description: 'Describes how Accept: text/markdown requests receive markdown responses with negotiation headers.'
+  },
   'webmcp.md': {
     name: 'WebMCP discovery',
     description: 'Describes the browser-side tools exposed through the WebMCP API.'
@@ -310,6 +326,20 @@ function buildOpenApiDocument(siteConfig) {
 }
 
 function buildApiCatalog(siteConfig) {
+  const protectedResourcePath = siteConfig.publishPaths?.oauthProtectedResource || '/.well-known/oauth-protected-resource';
+  const authItems = siteConfig.authDiscovery?.enabled ? [
+    {
+      href: toAbsoluteUrl(siteConfig.siteUrl, '/.well-known/oauth-authorization-server'),
+      rel: 'oauth-authorization-server',
+      type: 'application/json'
+    },
+    {
+      href: toAbsoluteUrl(siteConfig.siteUrl, protectedResourcePath),
+      rel: 'oauth-protected-resource',
+      type: 'application/json'
+    }
+  ] : [];
+
   return {
     linkset: [
       {
@@ -329,11 +359,82 @@ function buildApiCatalog(siteConfig) {
             href: toAbsoluteUrl(siteConfig.siteUrl, siteConfig.publishPaths.healthApi),
             rel: 'status',
             type: 'application/json'
-          }
+          },
+          ...authItems
         ]
       }
     ]
   };
+}
+
+function getAuthDiscoveryConfig(siteConfig) {
+  if (!siteConfig.authDiscovery?.enabled) return null;
+
+  const auth = siteConfig.authDiscovery;
+  const issuer = (auth.issuer || siteConfig.siteUrl).replace(/\/$/, '');
+
+  return {
+    issuer,
+    authorizationEndpoint: toAbsoluteUrl(siteConfig.siteUrl, auth.authorizationEndpoint),
+    tokenEndpoint: toAbsoluteUrl(siteConfig.siteUrl, auth.tokenEndpoint),
+    jwksUri: toAbsoluteUrl(siteConfig.siteUrl, auth.jwksUri),
+    grantTypesSupported: auth.grantTypesSupported || ['authorization_code'],
+    responseTypesSupported: auth.responseTypesSupported || ['code'],
+    tokenEndpointAuthMethodsSupported: auth.tokenEndpointAuthMethodsSupported || ['private_key_jwt'],
+    scopesSupported: auth.scopesSupported || ['portfolio.read'],
+    codeChallengeMethodsSupported: auth.codeChallengeMethodsSupported || ['S256']
+  };
+}
+
+function buildOauthAuthorizationServerMetadata(siteConfig) {
+  const auth = getAuthDiscoveryConfig(siteConfig);
+  if (!auth) return null;
+
+  return {
+    issuer: auth.issuer,
+    authorization_endpoint: auth.authorizationEndpoint,
+    token_endpoint: auth.tokenEndpoint,
+    jwks_uri: auth.jwksUri,
+    grant_types_supported: auth.grantTypesSupported,
+    response_types_supported: auth.responseTypesSupported,
+    token_endpoint_auth_methods_supported: auth.tokenEndpointAuthMethodsSupported,
+    scopes_supported: auth.scopesSupported,
+    code_challenge_methods_supported: auth.codeChallengeMethodsSupported
+  };
+}
+
+function buildOauthProtectedResourceMetadata(siteConfig) {
+  const auth = getAuthDiscoveryConfig(siteConfig);
+  if (!auth) return null;
+
+  const protectedResourceConfig = siteConfig.authDiscovery?.protectedResource || {};
+  const authorizationServers =
+    protectedResourceConfig.authorizationServers?.length
+      ? protectedResourceConfig.authorizationServers
+      : [auth.issuer];
+
+  return {
+    resource: protectedResourceConfig.resource || toAbsoluteUrl(siteConfig.siteUrl, '/api/'),
+    authorization_servers: authorizationServers,
+    scopes_supported: protectedResourceConfig.scopesSupported || auth.scopesSupported
+  };
+}
+
+function buildOidcDiscoveryMetadata(siteConfig) {
+  const oauthMetadata = buildOauthAuthorizationServerMetadata(siteConfig);
+  if (!oauthMetadata) return null;
+
+  return {
+    ...oauthMetadata,
+    subject_types_supported: ['public'],
+    id_token_signing_alg_values_supported: ['RS256'],
+    claims_supported: ['iss', 'sub', 'aud', 'exp', 'iat', 'scope']
+  };
+}
+
+function buildJwksDocument() {
+  // Static site mode: discovery is published, but signing keys are managed externally.
+  return { keys: [] };
 }
 
 function buildMcpServerCard(siteConfig) {
@@ -410,6 +511,15 @@ async function writeGeneratedArtifacts(data, siteConfig) {
   await writeGeneratedJson('.well-known/api-catalog', buildApiCatalog(siteConfig));
   await writeGeneratedJson('.well-known/mcp/server-card.json', buildMcpServerCard(siteConfig));
   await writeGeneratedJson('.well-known/agent-skills/index.json', await buildAgentSkillsIndex(siteConfig));
+
+  const oauthMetadata = buildOauthAuthorizationServerMetadata(siteConfig);
+  if (oauthMetadata) {
+    const protectedResourcePath = siteConfig.publishPaths?.oauthProtectedResource || '/.well-known/oauth-protected-resource';
+    await writeGeneratedJson('.well-known/oauth-authorization-server', oauthMetadata);
+    await writeGeneratedJson('.well-known/openid-configuration', buildOidcDiscoveryMetadata(siteConfig));
+    await writeGeneratedJson(protectedResourcePath, buildOauthProtectedResourceMetadata(siteConfig));
+    await writeGeneratedJson('.well-known/jwks.json', buildJwksDocument());
+  }
 }
 
 function renderNavLinks(data) {

@@ -41,11 +41,14 @@ The build now generates and publishes:
 - `sitemap.xml` with canonical URLs
 - `index.md` as a markdown rendering of the homepage content
 - `/.well-known/api-catalog` in `application/linkset+json`
+- `/.well-known/oauth-authorization-server`, `/.well-known/openid-configuration`, and `/.well-known/jwks.json`
 - `/.well-known/mcp/server-card.json`
 - `/.well-known/agent-skills/index.json`
 - `/api/profile.json`, `/api/health.json`, and `/api/openapi.json`
 - `/api-docs/` human-readable API documentation
 - `_headers` as an optional custom-header manifest for hosts such as Netlify or Cloudflare Pages
+- homepage `Link` response headers in `_headers` advertising API catalog, docs, OpenAPI, OAuth metadata, markdown, MCP card, and skills index
+- `functions/_middleware.mjs` for runtime markdown negotiation on hosts that support edge middleware
 
 ## Publish to GitHub Pages
 
@@ -72,8 +75,10 @@ You can also trigger the same deployment manually from the **Actions** tab with 
 - External links open with `target="_blank"` and `rel="noopener noreferrer"`.
 - The build writes a `.nojekyll` file so GitHub Pages serves the output as plain static files.
 - Running `npm run build` locally is still useful when you want to preview the exact deployment output before pushing.
-- The homepage advertises discovery resources with HTML `<link>` elements, but true HTTP `Link` response headers and `Accept: text/markdown` content negotiation are not configurable on GitHub Pages. To support those two features exactly, place the site behind a host or proxy that supports custom response headers and content negotiation.
-- The published JSON API is intentionally public and read-only, so OAuth/OIDC discovery documents are not emitted.
+- The homepage advertises discovery resources with HTML `<link>` elements, and `_headers` contains HTTP `Link` header declarations for hosts that honor that manifest.
+- `Accept: text/markdown` negotiation is implemented in `functions/_middleware.mjs` and returns markdown with `Content-Type: text/markdown`, `Vary: Accept`, and `x-markdown-tokens` when middleware execution is available.
+- GitHub Pages static hosting does not execute edge middleware, so true header-based negotiation there still requires a proxy/CDN/alternate host that supports runtime request handling.
+- OAuth/OIDC discovery metadata is generated from `site.config.json`; if you adopt a real authorization server, update the configured issuer and endpoint URLs to match production.
 
 ## Browser support target
 

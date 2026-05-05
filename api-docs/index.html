@@ -82,7 +82,14 @@
 
     <section class="card" aria-labelledby="auth-title">
         <h2 id="auth-title">Authentication</h2>
-        <p>These endpoints are public and do not require OAuth or OpenID Connect. No protected-resource metadata is published because no protected API is exposed by this static site.</p>
+        <p>Discovery metadata is published for OAuth 2.0 and OpenID Connect:</p>
+        <ul>
+            <li><a href="../.well-known/oauth-authorization-server"><code>/.well-known/oauth-authorization-server</code></a></li>
+            <li><a href="../.well-known/openid-configuration"><code>/.well-known/openid-configuration</code></a></li>
+            <li><a href="../.well-known/oauth-protected-resource"><code>/.well-known/oauth-protected-resource</code></a></li>
+            <li><a href="../.well-known/jwks.json"><code>/.well-known/jwks.json</code></a></li>
+        </ul>
+        <p>The public portfolio endpoints remain readable without auth on this static deployment. If you later protect APIs behind an authorization server, keep these well-known documents aligned with your live OAuth/OIDC endpoints.</p>
     </section>
 
     <section class="card" aria-labelledby="example-title">

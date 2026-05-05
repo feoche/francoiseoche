@@ -2,6 +2,11 @@
   Link: </.well-known/api-catalog>; rel="api-catalog"
   Link: </api-docs/>; rel="service-doc"
   Link: </api/openapi.json>; rel="service-desc"; type="application/openapi+json"
+  Link: </.well-known/oauth-authorization-server>; rel="oauth-authorization-server"
+  Link: </.well-known/openid-configuration>; rel="openid-configuration"
+  Link: </.well-known/oauth-protected-resource>; rel="oauth-protected-resource"
+  Link: </.well-known/mcp/server-card.json>; rel="mcp-server-card"
+  Link: </.well-known/agent-skills/index.json>; rel="agent-skills"
   Link: </index.md>; rel="alternate"; type="text/markdown"
   Vary: Accept
 
@@ -13,4 +18,16 @@
 
 /.well-known/mcp/server-card.json
   Content-Type: application/json; charset=utf-8
+
+/.well-known/oauth-authorization-server
+  Content-Type: application/json; charset=utf-8
+
+/.well-known/openid-configuration
+  Content-Type: application/json; charset=utf-8
+
+/.well-known/oauth-protected-resource
+  Content-Type: application/json; charset=utf-8
+
+/.well-known/jwks.json
+  Content-Type: application/jwk-set+json; charset=utf-8
 
