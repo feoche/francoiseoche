@@ -5,7 +5,7 @@ window.fontFamilySwitcher = (function () {
     'use strict';
 
     const fonts = [
-        { name: 'Default',         family: "'Assistant', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" },
+        { name: 'Default',         family: "'Outfit', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" },
         { name: 'System UI',       family: "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" },
         { name: 'Dyslexic',    family: "'OpenDyslexic', 'Comic Sans MS', cursive" },
         { name: 'Arial',           family: "Arial, Helvetica, sans-serif" },

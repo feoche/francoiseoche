@@ -3,6 +3,7 @@
     padding: 0;
     box-sizing: border-box;
     text-underline-offset: 0.3em;
+    font-family: inherit;
 }
 
 :root {
@@ -23,7 +24,7 @@
     --radius-lg: 0.75rem;
     --transition-fast: 150ms ease;
     --transition-base: 250ms ease;
-    --font-sans: 'Assistant', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --font-sans: 'Outfit', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     --font-heading: 'Albert Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     --max-width: 75rem;
     --container-padding: 1rem;
