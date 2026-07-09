@@ -6,7 +6,7 @@ function run() {
   assert.equal(shouldServeMarkdown('/', 'text/html'), false);
   assert.equal(shouldServeMarkdown('/', 'text/html;q=1, text/markdown;q=0.9'), false);
   assert.equal(shouldServeMarkdown('/', 'text/html;q=0.6, text/markdown;q=0.9'), true);
-  assert.equal(shouldServeMarkdown('/index.html', 'text/*'), true);
+  assert.equal(shouldServeMarkdown('/en.html', 'text/*'), true);
   assert.equal(shouldServeMarkdown('/projects', 'text/markdown'), false);
 
   assert.equal(estimateMarkdownTokens('abcd'), 1);

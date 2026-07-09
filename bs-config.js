@@ -3,7 +3,7 @@ module.exports = {
     baseDir: './'
   },
   files: [
-    'index.html',
+    'en.html',
     'styles.css',
     '*.js'
   ],

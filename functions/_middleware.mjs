@@ -34,7 +34,7 @@ export async function onRequest(context) {
   }
 
   const response = await context.next();
-  if (pathname === '/' || pathname === '/index.html') {
+  if (pathname === '/' || pathname === '/en.html') {
     const currentVary = response.headers.get('vary');
     if (!currentVary) {
       response.headers.set('vary', 'Accept');

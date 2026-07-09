@@ -8,10 +8,18 @@
     const data = window.portfolioData;
     if (!data) return;
 
+    const DEFAULT_LABELS = {
+        since: 'Since',
+        at: 'at',
+        viewProject: 'View Project',
+        newTab: ' (opens in a new tab)'
+    };
+    const labels = Object.assign({}, DEFAULT_LABELS, data.labels);
+
     function formatDateRange(item) {
-        if (!item.endDate) return `Since ${item.startDate}`;
+        if (!item.endDate) return `${labels.since} ${item.startDate}`;
         if (item.startDate === item.endDate) return item.startDate;
-        return `${item.startDate} - ${item.endDate}`;
+        return `${item.startDate} → ${item.endDate}`;
     }
 
     function renderNavigation() {
@@ -62,13 +70,12 @@
             return `
                 <article class="timeline-item">
                     <time class="timeline-date">
-                        <span class="calendar-icon" aria-hidden="true">📅</span>&nbsp;
                         ${formatDateRange(item)}
                     </time>
                     <div class="timeline-content">
                         <h3 class="timeline-title">${item.title}</h3>
                         ${subtitle}
-                        <h4 class="timeline-company">at <a class="cv-item_link" href="${item.company.url}" target="_blank" rel="noopener noreferrer">${item.company.name}</a></h4>
+                        <h4 class="timeline-company">${labels.at} <a class="cv-item_link" href="${item.company.url}" target="_blank" rel="noopener noreferrer">${item.company.name}</a></h4>
                         <ul class="missions">${missions}</ul>
                     </div>
                 </article>
@@ -92,7 +99,7 @@
             return `
                 <article class="diploma-card">
                     <h3 class="diploma-title">${item.title}${subtitle}</h3>
-                    <p class="diploma-place">at <a class="cv-item_link" href="${item.place.url}" target="_blank" rel="noopener noreferrer">${item.place.name}</a> - <time class="diploma-date"><span class="calendar-icon" aria-hidden="true">📅</span>&nbsp;${item.date}</time></p>
+                    <p class="diploma-place"><a class="cv-item_link" href="${item.place.url}" target="_blank" rel="noopener noreferrer">${item.place.name}</a> - <time class="diploma-date"><span class="calendar-icon" aria-hidden="true">📅</span>&nbsp;${item.date}</time></p>
                     <ul class="diploma-details">${details}</ul>
                 </article>
             `;
@@ -108,7 +115,7 @@
                 ? `<p class="project-subtitle">${item.subtitle}</p>`
                 : '';
             const link = item.url
-                ? `<a href="${item.url}" target="_blank" rel="noopener noreferrer" class="project-link">View Project</a>`
+                ? `<a href="${item.url}" target="_blank" rel="noopener noreferrer" class="project-link">${labels.viewProject}</a>`
                 : '';
 
             return `
@@ -133,7 +140,7 @@
 
         container.innerHTML = data.talks.map(item => {
             const event = item.event
-                ? `<p class="talk-event">at <a class="cv-item_link" href="${item.event.url}" target="_blank" rel="noopener noreferrer">${item.event.name}</a> — <time class="talk-date"><span class="calendar-icon" aria-hidden="true">📅</span>&nbsp;${item.date}</time></p>`
+                ? `<p class="talk-event"><a class="cv-item_link" href="${item.event.url}" target="_blank" rel="noopener noreferrer">${item.event.name}</a> — <time class="talk-date"><span class="calendar-icon" aria-hidden="true">📅</span>&nbsp;${item.date}</time></p>`
                 : `<time class="talk-date"><span class="calendar-icon" aria-hidden="true">📅</span>&nbsp;${item.date}</time>`;
             const link = item.link
                 ? `<a href="${item.link.url}" target="_blank" rel="noopener noreferrer" class="project-link">${item.link.label}</a>`
@@ -206,7 +213,7 @@
             if (!link.querySelector('.sr-only-newtab')) {
                 const span = document.createElement('span');
                 span.className = 'sr-only sr-only-newtab';
-                span.textContent = ' (opens in a new tab)';
+                span.textContent = labels.newTab;
                 link.appendChild(span);
             }
         });

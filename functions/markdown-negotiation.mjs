@@ -22,7 +22,7 @@ function parseAcceptHeader(acceptHeader = '') {
 
 export function shouldServeMarkdown(pathname = '/', acceptHeader = '') {
   const normalizedPath = normalizePath(pathname);
-  const isHomepage = normalizedPath === '/' || normalizedPath === '/index.html';
+  const isHomepage = normalizedPath === '/' || normalizedPath === '/en.html';
   if (!isHomepage) return false;
 
   const acceptedTypes = parseAcceptHeader(acceptHeader);

@@ -3,10 +3,17 @@
  * Edit this file to update all website content without touching HTML structure.
  */
 window.portfolioData = {
+    labels: {
+        since: 'Since',
+        at: 'at',
+        viewProject: 'View Project',
+        newTab: ' (opens in a new tab)'
+    },
+
     navigation: {
         brandName: 'François Eoche',
         links: [
-            {label: 'Experience', href: '#experience'},
+            {label: 'Career', href: '#experience'},
             {label: 'Diplomas', href: '#diplomas'},
             {label: 'Projects', href: '#projects'},
             {label: 'Talks', href: '#talks'},
@@ -121,7 +128,6 @@ window.portfolioData = {
             date: '2014',
             place: {name: 'ISTIC – University of Rennes 1', url: 'https://istic.univ-rennes.fr/'},
             details: [
-                'With "Good" distinction',
                 '\'Interface ergonomics and ICT\' specialty'
             ]
         },
@@ -130,8 +136,7 @@ window.portfolioData = {
             date: '2014',
             place: {name: 'ISTIC – University of Rennes 1', url: 'https://istic.univ-rennes.fr/'},
             details: [
-                'Academic equivalent of the TOEIC test',
-                '~785+ TOEIC points'
+                'Academic equivalent of the TOEIC test'
             ]
         }
     ],

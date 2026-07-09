@@ -75,7 +75,7 @@
     --primary-hover: #ffffff;
     --text-primary: #ffffff;
     --text-secondary: #ffffff;
-    --link-color: #00ACAB;
+    --link-color: #00dddd;
     --bg-primary: #0c1f1b;
     --bg-secondary: #00574a;
     --bg-alt: #003D34;
@@ -955,7 +955,7 @@ a {
     border-radius: var(--radius-md);
     border: var(--border-width) solid var(--border-color);
     display: flex;
-    min-width: clamp(50ch, 30vw, 80ch);
+    min-width: clamp(60ch, 30vw, 80ch);
     flex-direction: column;
     gap: var(--spacing-xs);
     transition: border-color var(--transition-base), box-shadow var(--transition-base);
@@ -1058,13 +1058,11 @@ a {
 
 .diploma-card,
 .talk-card {
-    flex: 1 1 300px;
+    flex: 1 1 370px;
     padding: var(--spacing-xl);
-    text-align: center;
     position: relative;
     overflow: hidden;
     animation: var(--animation-fade);
-    align-items: center;
     gap: var(--spacing-sm);
 }
 
@@ -1140,6 +1138,7 @@ a {
 .talk-title {
     font-size: var(--text-xl);
     color: var(--text-primary);
+    text-wrap: balance;
 }
 
 .talk-description {
@@ -1153,7 +1152,6 @@ a {
     flex-direction: column;
     gap: var(--spacing-sm);
     flex: 1;
-    align-items: center;
 }
 
 .extra-item {
@@ -1188,6 +1186,7 @@ a {
 .contact-intro {
     color: var(--text-secondary);
     line-height: 1.6;
+    text-wrap: balance;
 }
 
 .contact-methods {

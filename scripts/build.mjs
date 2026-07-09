@@ -68,11 +68,11 @@ async function exists(targetPath) {
 }
 
 // ---------------------------------------------------------------------------
-// Pre-render: load data.js, generate HTML fragments, inject into index.html
+// Pre-render: load en.js, generate HTML fragments, inject into index.html
 // ---------------------------------------------------------------------------
 
 async function loadData() {
-  const raw = await readFile(path.join(rootDir, 'data', 'data.js'), 'utf-8');
+  const raw = await readFile(path.join(rootDir, 'data', 'en.js'), 'utf-8');
   // Strip the `window.portfolioData = ` wrapper so we can eval as plain object
   const trimmed = raw
     .replace(/^[\s\S]*?window\.portfolioData\s*=\s*/, '')
@@ -181,7 +181,7 @@ function renderMarkdown(data, siteConfig) {
   });
 
   const sectionDefinitions = [
-    ['Experience', data.experience, (item) => [
+    ['Career', data.experience, (item) => [
       `### ${stripHtml(item.title)} — ${formatDateRange(item)}`,
       `- Company: ${stripHtml(item.company.name)}`,
       ...item.missions.map((mission) => `- ${stripHtml(mission)}`)
@@ -760,7 +760,7 @@ async function buildFlattenedHtml() {
     `$1${renderFooter(data)}$2`
   );
 
-  // Remove data.js and render.js — content is pre-rendered; runtime JS modules are kept
+  // Remove en.js and render.js — content is pre-rendered; runtime JS modules are kept
   html = html.replace(/\s*<script src="data\/data\.js"><\/script>/, '');
   html = html.replace(/\s*<script src="js\/render\.js"><\/script>/, '');
 

@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+          content="François Eoche. Portfolio présentant expérience, projets et réalisations professionnelles.">
+    <meta name="keywords" content="portfolio, développeur, designer, expérience, projets, François Eoche, développeur web">
+    <meta name="author" content="François Eoche">
+    <meta name="theme-color" content="#2563eb" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#60a5fa" media="(prefers-color-scheme: dark)">
+    <meta name="color-scheme" content="light dark">
+    <link rel="canonical" href="https://feoche.github.io/francoiseoche/fr.html">
+    <link rel="alternate" type="text/markdown" href="index.md" title="Markdown version for agents">
+    <link rel="service-doc" href="api-docs/" title="Public API documentation">
+    <link rel="service-desc" href="api/openapi.json" type="application/openapi+json" title="OpenAPI description">
+    <link rel="api-catalog" href=".well-known/api-catalog" type="application/linkset+json" title="API catalog">
+    <link rel="oauth-authorization-server" href=".well-known/oauth-authorization-server" type="application/json" title="OAuth authorization server metadata">
+    <link rel="openid-configuration" href=".well-known/openid-configuration" type="application/json" title="OpenID Connect discovery metadata">
+    <link rel="oauth-protected-resource" href=".well-known/oauth-protected-resource" type="application/json" title="OAuth protected resource metadata">
+    <link rel="mcp-server-card" href=".well-known/mcp/server-card.json" type="application/json" title="MCP server card">
+    <link rel="agent-skills" href=".well-known/agent-skills/index.json" type="application/json" title="Agent skills index">
+
+    <link rel="preload" href="styles.css" as="style">
+    <link rel="preload" href="index.js" as="script">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Albert+Sans:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700&family=OpenDyslexic&display=swap"
+          media="print" onload="this.media='all'">
+    <noscript>
+        <link rel="stylesheet"
+              href="https://fonts.googleapis.com/css2?family=Albert+Sans:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700&family=OpenDyslexic&display=swap">
+    </noscript>
+
+    <link rel="stylesheet" href="styles.css">
+
+    <meta property="og:title" content="François Eoche">
+    <meta property="og:description" content="Portfolio présentant expérience, projets et réalisations professionnelles.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://feoche.github.io/francoiseoche/fr.html">
+
+    <title>François Eoche</title>
+</head>
+<body>
+
+<header class="site-header">
+    <a href="#main-content" class="skip-link">Aller au contenu principal</a>
+    <nav class="nav-container" aria-label="Navigation principale">
+        <a class="nav-brand" href="#">
+            <span class="nav-brand-name">François Eoche</span>
+        </a>
+        <ul class="nav-menu">
+        </ul>
+        <div class="nav-actions">
+            <button id="accessibility-menu-toggle" class="accessibility-menu-btn"
+                    aria-label="Ouvrir les paramètres d'accessibilité" aria-expanded="false" aria-controls="accessibility-drawer">
+                <span class="btn-label">Accessibilité</span>
+            </button>
+            <button class="nav-toggle" aria-label="Basculer le menu de navigation" aria-expanded="false"
+                    aria-controls="nav-menu">
+                <span class="hamburger"></span>
+                <span class="hamburger"></span>
+                <span class="hamburger"></span>
+            </button>
+        </div>
+    </nav>
+</header>
+
+<dialog id="accessibility-drawer" class="accessibility-drawer" aria-labelledby="accessibility-title">
+    <header class="drawer-header">
+        <h2 id="accessibility-title" class="drawer-title">Paramètres d'accessibilité</h2>
+        <button id="close-drawer" class="close-drawer-btn" aria-label="Fermer les paramètres d'accessibilité">
+            <span aria-hidden="true">×</span>
+        </button>
+    </header>
+    <div class="drawer-content">
+        <section class="accessibility-section">
+            <h3 class="accessibility-section-title">Thème</h3>
+            <label class="theme-select-group" for="theme-select">
+                <select id="theme-select" class="theme-select" aria-label="Choisir le thème">
+                    <option value="auto">Auto (Système)</option>
+                    <option value="light">☀️ Clair</option>
+                    <option value="dark">🌙 Sombre</option>
+                    <option value="inverted-contrast">🔄 Inversé</option>
+                </select>
+            </label>
+        </section>
+
+        <section class="accessibility-section">
+            <h3 class="accessibility-section-title">Paramètres d'affichage</h3>
+            <div class="accessibility-controls">
+                <label class="switch-control" for="dyslexic-font-toggle">
+                    <input type="checkbox" id="dyslexic-font-toggle" class="switch-input" role="switch">
+                    <span class="switch-track" aria-hidden="true"></span>
+                    <span class="switch-label">Police dyslexie</span>
+                </label>
+                <label class="switch-control" for="animation-toggle">
+                    <input type="checkbox" id="animation-toggle" class="switch-input" role="switch">
+                    <span class="switch-track" aria-hidden="true"></span>
+                    <span class="switch-label">Réduire les animations</span>
+                </label>
+            </div>
+        </section>
+
+        <section class="accessibility-section">
+            <h3 class="accessibility-section-title">Police de caractères</h3>
+            <div id="font-family-switcher" class="font-family-switcher" role="radiogroup"
+                 aria-label="Choisir la police de caractères">
+            </div>
+        </section>
+
+        <section class="accessibility-section">
+            <h3 class="accessibility-section-title">Personnalisation des couleurs</h3>
+            <div class="custom-color-section">
+                <div class="color-pickers-row">
+                    <label class="color-picker-group">
+                        <span class="color-input-label">Principale</span>
+                        <input type="color" id="primary-color-picker" class="color-picker" value="#00574a"
+                               aria-label="Choisir la couleur principale">
+                    </label>
+                    <label class="color-picker-group">
+                        <span class="color-input-label">Arrière-plan</span>
+                        <input type="color" id="background-color-picker" class="color-picker" value="#ffffff"
+                               aria-label="Choisir la couleur d'arrière-plan">
+                    </label>
+                    <label class="color-picker-group">
+                        <span class="color-input-label">Texte</span>
+                        <input type="color" id="text-color-picker" class="color-picker" value="#001f1b"
+                               aria-label="Choisir la couleur du texte">
+                    </label>
+                </div>
+                <div class="color-actions">
+                    <button id="apply-colors" class="apply-color-btn" aria-label="Appliquer toutes les couleurs">Appliquer</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="accessibility-section">
+            <h3 class="accessibility-section-title">Paramètres du texte</h3>
+            <div class="text-setting-presets">
+                <button class="preset-btn" data-preset="normal" aria-pressed="true">Normal</button>
+                <button class="preset-btn" data-preset="wcag-aa" aria-pressed="false">Grand</button>
+                <button class="preset-btn" data-preset="wcag-aaa" aria-pressed="false">Plus grand</button>
+                <button class="preset-btn" data-preset="low-vision" aria-pressed="false">Basse vision</button>
+            </div>
+            <div class="text-settings-panel">
+                <label class="text-setting-control">
+                    <span class="text-setting-label">Taille de police</span>
+                    <input type="range" id="font-size-slider" min="16" max="30" value="16" step="1">
+                    <output class="text-setting-value" id="font-size-value" for="font-size-slider">16px</output>
+                </label>
+                <label class="text-setting-control">
+                    <span class="text-setting-label">Hauteur de ligne</span>
+                    <input type="range" id="line-height-slider" min="1.2" max="2.5" value="1.6" step="0.1">
+                    <output class="text-setting-value" id="line-height-value" for="line-height-slider">1.6</output>
+                </label>
+                <label class="text-setting-control">
+                    <span class="text-setting-label">Espacement des lettres</span>
+                    <input type="range" id="letter-spacing-slider" min="0" max="0.2" value="0" step="0.01">
+                    <output class="text-setting-value" id="letter-spacing-value" for="letter-spacing-slider">0.00px</output>
+                </label>
+                <label class="text-setting-control">
+                    <span class="text-setting-label">Espacement des mots</span>
+                    <input type="range" id="word-spacing-slider" min="0" max="0.3" value="0" step="0.01">
+                    <output class="text-setting-value" id="word-spacing-value" for="word-spacing-slider">0.00px</output>
+                </label>
+            </div>
+        </section>
+
+        <button id="global-reset" class="global-reset-btn" aria-label="Réinitialiser tous les paramètres d'accessibilité">
+            Tout réinitialiser
+        </button>
+    </div>
+</dialog>
+
+<main id="main-content">
+    <section class="hero" aria-labelledby="hero-title">
+        <div class="container" id="hero-content">
+            <noscript><p>Veuillez activer JavaScript pour consulter ce portfolio.</p></noscript>
+        </div>
+    </section>
+
+    <section id="experience" class="section" aria-labelledby="experience-title">
+        <div class="container">
+            <h2 id="experience-title" class="section-title">Emplois</h2>
+            <div class="timeline" id="experience-timeline"></div>
+        </div>
+    </section>
+
+    <section id="diplomas" class="section section-alt" aria-labelledby="diplomas-title">
+        <div class="container">
+            <h2 id="diplomas-title" class="section-title">Formation &amp; certifications</h2>
+            <div class="diplomas-grid" id="diplomas-grid"></div>
+        </div>
+    </section>
+
+    <section id="projects" class="section" aria-labelledby="projects-title">
+        <div class="container">
+            <h2 id="projects-title" class="section-title">Projets clés</h2>
+            <div class="projects-grid" id="projects-grid"></div>
+        </div>
+    </section>
+
+    <section id="talks" class="section section-alt" aria-labelledby="talks-title">
+        <div class="container">
+            <h2 id="talks-title" class="section-title">Conférences &amp; interventions</h2>
+            <div class="talks-grid" id="talks-grid"></div>
+        </div>
+    </section>
+
+    <section id="extras" class="section" aria-labelledby="extras-title">
+        <div class="container">
+            <h2 id="extras-title" class="section-title">Bonus &amp; activités</h2>
+            <div class="extras-grid" id="extras-grid"></div>
+        </div>
+    </section>
+</main>
+
+<footer class="site-footer">
+    <section id="contact" class="section" aria-labelledby="contact-title">
+        <div class="container">
+            <h2 id="contact-title" class="section-title">Me contacter</h2>
+            <div class="contact-content" id="contact-content"></div>
+        </div>
+    </section>
+    <div class="container" id="footer-content"></div>
+</footer>
+
+<script src="data/fr.js"></script>
+<script src="js/render.js"></script>
+<script src="js/utils.js"></script>
+<script src="js/colors.js"></script>
+<script src="js/theme.js"></script>
+<script src="js/font-switcher.js"></script>
+<script src="js/text-settings.js"></script>
+<script src="js/accessibility.js"></script>
+<script src="js/webmcp.js"></script>
+<script src="index.js" defer></script>
+</body>
+</html>
