@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const outputDir = path.join(rootDir, 'docs');
 
-const requiredFiles = ['index.html', 'index.js', 'styles.css'];
+const requiredFiles = ['index.js', 'styles.css'];
 const optionalFiles = ['404.html', 'favicon.ico', 'robots.txt', 'sitemap.xml', 'manifest.webmanifest', 'CNAME', '_headers'];
 const optionalDirectories = ['assets', 'images', 'fonts', 'public', 'js', '.well-known', 'api-docs'];
 
@@ -23,6 +23,21 @@ const cvPages = [
   { source: 'fr.html', dest: path.join('cv', 'index.html') }
 ];
 const cvStylesheet = 'cv.css';
+
+// Language homepages are pre-rendered from their template + data file. French is
+// served at the site root; English is served one directory deep at /en/ so its
+// URL is /en (no .html), which GitHub Pages resolves to /en/index.html.
+const homepages = [
+  { template: 'fr.html', data: 'fr', dest: 'index.html', basePrefix: '' },
+  { template: 'en.html', data: 'en', dest: path.join('en', 'index.html'), basePrefix: '../' }
+];
+
+const DEFAULT_LABELS = {
+  since: 'Since',
+  at: 'at',
+  viewProject: 'View Project',
+  newTab: ' (opens in a new tab)'
+};
 const agentSkillMetadata = {
   'api-catalog.md': {
     name: 'API catalog discovery',
@@ -71,8 +86,8 @@ async function exists(targetPath) {
 // Pre-render: load en.js, generate HTML fragments, inject into index.html
 // ---------------------------------------------------------------------------
 
-async function loadData() {
-  const raw = await readFile(path.join(rootDir, 'data', 'en.js'), 'utf-8');
+async function loadData(lang = 'en') {
+  const raw = await readFile(path.join(rootDir, 'data', `${lang}.js`), 'utf-8');
   // Strip the `window.portfolioData = ` wrapper so we can eval as plain object
   const trimmed = raw
     .replace(/^[\s\S]*?window\.portfolioData\s*=\s*/, '')
@@ -105,6 +120,18 @@ function decodeEntities(value = '') {
 
 function formatDateRange(item) {
   if (!item.endDate) return `Since ${item.startDate}`;
+  if (item.startDate === item.endDate) return item.startDate;
+  return `${item.startDate} - ${item.endDate}`;
+}
+
+// Label-aware variant used by the HTML renderers so pre-rendered pages match the
+// runtime output of js/render.js in each language.
+function labelsFor(data) {
+  return Object.assign({}, DEFAULT_LABELS, data.labels);
+}
+
+function formatDateRangeLabeled(item, labels) {
+  if (!item.endDate) return `${labels.since} ${item.startDate}`;
   if (item.startDate === item.endDate) return item.startDate;
   return `${item.startDate} - ${item.endDate}`;
 }
@@ -564,6 +591,7 @@ function renderHero(data) {
 }
 
 function renderExperience(data) {
+  const labels = labelsFor(data);
   return data.experience.map(item => {
     const subtitle = item.subtitle ? `<p class="subtitle">${item.subtitle}</p>` : '';
     const missions = item.missions.map(m => `<li>${m}</li>`).join('');
@@ -571,12 +599,12 @@ function renderExperience(data) {
                 <article class="timeline-item">
                     <time class="timeline-date">
                         <span class="calendar-icon" aria-hidden="true">📅</span>&nbsp;
-                        ${formatDateRange(item)}
+                        ${formatDateRangeLabeled(item, labels)}
                     </time>
                     <div class="timeline-content">
                         <h3 class="timeline-title">${item.title}</h3>
                         ${subtitle}
-                        <h4 class="timeline-company">at <a class="cv-item_link" href="${item.company.url}" target="_blank" rel="noopener noreferrer">${item.company.name}</a></h4>
+                        <h4 class="timeline-company">${labels.at} <a class="cv-item_link" href="${item.company.url}" target="_blank" rel="noopener noreferrer">${item.company.name}</a></h4>
                         <ul class="missions">${missions}</ul>
                     </div>
                 </article>`;
@@ -584,13 +612,14 @@ function renderExperience(data) {
 }
 
 function renderDiplomas(data) {
+  const labels = labelsFor(data);
   return data.diplomas.map(item => {
     const subtitle = item.subtitle ? `<span class="subtitle">${item.subtitle}</span>` : '';
     const details = item.details.map(d => `<li>${d}</li>`).join('\n                        ');
     return `
                 <article class="diploma-card">
                     <h3 class="diploma-title">${item.title}${subtitle}</h3>
-                    <p class="diploma-place">at <a class="cv-item_link" href="${item.place.url}" target="_blank" rel="noopener noreferrer">${item.place.name}</a> - <time class="diploma-date"><span class="calendar-icon" aria-hidden="true">📅</span>&nbsp;${item.date}</time></p>
+                    <p class="diploma-place">${labels.at} <a class="cv-item_link" href="${item.place.url}" target="_blank" rel="noopener noreferrer">${item.place.name}</a> - <time class="diploma-date"><span class="calendar-icon" aria-hidden="true">📅</span>&nbsp;${item.date}</time></p>
                     <ul class="diploma-details">
                         ${details}
                     </ul>
@@ -599,12 +628,13 @@ function renderDiplomas(data) {
 }
 
 function renderProjects(data) {
+  const labels = labelsFor(data);
   return data.projects.map(item => {
     const subtitle = item.subtitle
       ? `<p class="project-subtitle">${item.subtitle}</p>`
       : '';
     const link = item.url
-      ? `<a href="${item.url}" target="_blank" rel="noopener noreferrer" class="project-link">View Project</a>`
+      ? `<a href="${item.url}" target="_blank" rel="noopener noreferrer" class="project-link">${labels.viewProject}</a>`
       : '';
     return `
                 <article class="project-card">
@@ -612,7 +642,7 @@ function renderProjects(data) {
                         <h3 class="project-title">${item.title}</h3>
                         ${subtitle}
                         <time class="project-date">
-                            <span class="calendar-icon" aria-hidden="true">📅</span>&nbsp;${formatDateRange(item)}
+                            <span class="calendar-icon" aria-hidden="true">📅</span>&nbsp;${formatDateRangeLabeled(item, labels)}
                         </time>
                         <p class="project-description">${item.description}</p>
                         ${link}
@@ -622,9 +652,10 @@ function renderProjects(data) {
 }
 
 function renderTalks(data) {
+  const labels = labelsFor(data);
   return data.talks.map(item => {
     const event = item.event
-      ? `<p class="talk-event">at <a class="cv-item_link" href="${item.event.url}" target="_blank" rel="noopener noreferrer">${item.event.name}</a> — <time class="talk-date"><span class="calendar-icon" aria-hidden="true">📅</span>&nbsp;${item.date}</time></p>`
+      ? `<p class="talk-event">${labels.at} <a class="cv-item_link" href="${item.event.url}" target="_blank" rel="noopener noreferrer">${item.event.name}</a> — <time class="talk-date"><span class="calendar-icon" aria-hidden="true">📅</span>&nbsp;${item.date}</time></p>`
       : `<time class="talk-date"><span class="calendar-icon" aria-hidden="true">📅</span>&nbsp;${item.date}</time>`;
     const link = item.link
       ? `<a href="${item.link.url}" target="_blank" rel="noopener noreferrer" class="project-link">${item.link.label}</a>`
@@ -686,19 +717,34 @@ function renderBrandName(data) {
  * Inject a visually-hidden "(opens in a new tab)" span inside every
  * target="_blank" anchor that doesn't already have one.
  */
-function addNewTabLabels(html) {
+function addNewTabLabels(html, newTabLabel) {
   return html.replace(
     /(<a\b[^>]*\btarget="_blank"[^>]*>)([\s\S]*?)(<\/a>)/g,
     (match, open, content, close) => {
       if (content.includes('sr-only-newtab')) return match;
-      return `${open}${content}<span class="sr-only sr-only-newtab"> (opens in a new tab)</span>${close}`;
+      return `${open}${content}<span class="sr-only sr-only-newtab">${newTabLabel}</span>${close}`;
     }
   );
 }
 
-async function buildFlattenedHtml() {
-  const data = await loadData();
-  let html = await readFile(path.join(rootDir, 'index.html'), 'utf-8');
+// Prefix relative href/src URLs so a page served one directory deep (e.g. /en/)
+// still resolves site-root assets. Absolute URLs, protocol-relative URLs,
+// in-page anchors and non-navigational schemes are left untouched.
+function prefixRelativeUrls(html, prefix) {
+  if (!prefix) return html;
+  return html.replace(
+    /\b(href|src)="([^"]*)"/g,
+    (match, attr, value) => {
+      if (/^(?:https?:|\/\/|\/|#|data:|mailto:|tel:|\.\.\/)/.test(value)) return match;
+      return `${attr}="${prefix}${value}"`;
+    }
+  );
+}
+
+async function buildFlattenedHtml({ template, data: lang, basePrefix }) {
+  const data = await loadData(lang);
+  const labels = labelsFor(data);
+  let html = await readFile(path.join(rootDir, template), 'utf-8');
 
   // Inject nav links into <ul class="nav-menu">
   html = html.replace(
@@ -760,12 +806,16 @@ async function buildFlattenedHtml() {
     `$1${renderFooter(data)}$2`
   );
 
-  // Remove en.js and render.js — content is pre-rendered; runtime JS modules are kept
-  html = html.replace(/\s*<script src="data\/data\.js"><\/script>/, '');
+  // Remove the language data file and render.js — content is pre-rendered; the
+  // remaining runtime JS modules are kept.
+  html = html.replace(/\s*<script src="data\/(?:en|fr)\.js"><\/script>/, '');
   html = html.replace(/\s*<script src="js\/render\.js"><\/script>/, '');
 
   // Inject aria labels for new-tab links
-  html = addNewTabLabels(html);
+  html = addNewTabLabels(html, labels.newTab);
+
+  // Rewrite relative asset paths for pages served below the site root.
+  html = prefixRelativeUrls(html, basePrefix);
 
   return html;
 }
@@ -827,7 +877,7 @@ async function copyCvPages() {
 }
 
 async function build() {
-  const data = await loadData();
+  const data = await loadData('en');
   const siteConfig = await loadSiteConfig();
 
   await rm(outputDir, { recursive: true, force: true });
@@ -839,9 +889,13 @@ async function build() {
   await copyCvPages();
   await writeGeneratedArtifacts(data, siteConfig);
 
-  // Overwrite index.html with flattened (pre-rendered) version
-  const flatHtml = await buildFlattenedHtml();
-  await writeFile(path.join(outputDir, 'index.html'), flatHtml, 'utf-8');
+  // Pre-render each language homepage: French at /, English at /en/.
+  for (const homepage of homepages) {
+    const flatHtml = await buildFlattenedHtml(homepage);
+    const destPath = path.join(outputDir, homepage.dest);
+    await mkdir(path.dirname(destPath), { recursive: true });
+    await writeFile(destPath, flatHtml, 'utf-8');
+  }
 
   await writeFile(path.join(outputDir, '.nojekyll'), '\n');
 
