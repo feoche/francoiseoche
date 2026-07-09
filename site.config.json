@@ -53,11 +53,17 @@
   },
   "sitemapPages": [
     "/",
+    "/cv/",
+    "/en/cv",
+    "/fr/cv",
     "/api-docs/"
   ],
   "robots": {
     "allow": [
       "/",
+      "/en/cv/",
+      "/fr/cv/",
+      "/cv/",
       "/assets/",
       "/js/",
       "/api/",

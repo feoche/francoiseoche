@@ -8,6 +8,12 @@
     const data = window.portfolioData;
     if (!data) return;
 
+    function formatDateRange(item) {
+        if (!item.endDate) return `Since ${item.startDate}`;
+        if (item.startDate === item.endDate) return item.startDate;
+        return `${item.startDate} - ${item.endDate}`;
+    }
+
     function renderNavigation() {
         const nav = data.navigation;
         const brand = document.querySelector('.nav-brand-name');
@@ -57,7 +63,7 @@
                 <article class="timeline-item">
                     <time class="timeline-date">
                         <span class="calendar-icon" aria-hidden="true">📅</span>&nbsp;
-                        ${item.date}
+                        ${formatDateRange(item)}
                     </time>
                     <div class="timeline-content">
                         <h3 class="timeline-title">${item.title}</h3>
@@ -111,7 +117,7 @@
                         <h3 class="project-title">${item.title}</h3>
                         ${subtitle}
                         <time class="project-date">
-                            <span class="calendar-icon" aria-hidden="true">📅</span>&nbsp;${item.date}
+                            <span class="calendar-icon" aria-hidden="true">📅</span>&nbsp;${formatDateRange(item)}
                         </time>
                         <p class="project-description">${item.description}</p>
                         ${link}

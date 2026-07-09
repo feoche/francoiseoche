@@ -1,0 +1,466 @@
+/* ==========================================================================
+   CV — shared stylesheet for every language variant (/en/cv, /fr/cv, …)
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   Icon webfonts (Font Awesome 5)
+   -------------------------------------------------------------------------- */
+@font-face {
+    font-family: 'FA Solid';
+    font-weight: 900;
+    font-style: normal;
+    src: url(https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/webfonts/fa-solid-900.woff2) format('woff2');
+}
+
+@font-face {
+    font-family: 'FA Brands';
+    font-weight: 400;
+    font-style: normal;
+    src: url(https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/webfonts/fa-brands-400.woff2) format('woff2');
+}
+
+/* --------------------------------------------------------------------------
+   Design tokens
+   -------------------------------------------------------------------------- */
+:root {
+    /* Layout scale — 1rem = 10px so the whole sheet stays in relative units */
+    font-size: 62.5%;
+
+    /* Colors */
+    --color-brand: #00574a;
+    --color-ink: #595959;
+    --color-on-dark: #ffffff;
+    --color-border: #eee;
+    --color-page-bg: #eceeed;
+    --color-sheet-bg: #ffffff;
+    --color-tag-bg: rgba(68, 84, 106, .09);
+
+    /* Semantic aliases */
+    --color-accent: var(--color-brand);
+    --color-heading: var(--color-ink);
+    --color-muted: var(--color-ink);
+    --color-body: var(--color-ink);
+    --color-sidebar-bg: var(--color-brand);
+
+    /* Typography */
+    --font-family: 'Outfit', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    --fs-name: 2.9rem;
+    --fs-tagline: 1.85rem;
+    --fs-section: 2.1rem;
+    --fs-subtitle: 1.75rem;
+    --fs-contact: 1.55rem;
+    --fs-skill-name: 1.6rem;
+    --fs-skill-item: 1.5rem;
+    --fs-role: 1.6rem;
+    --fs-org: 1.3rem;
+    --fs-date: 1.3rem;
+    --fs-detail: 1.2rem;
+    --fs-note: 1.1rem;
+    --fs-body: 1.1rem;
+
+    /* Sheet geometry */
+    --sheet-width: 210mm;
+    --sheet-height: 297mm;
+    --radius-pill: 1rem;
+}
+
+/* --------------------------------------------------------------------------
+   Base
+   -------------------------------------------------------------------------- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-family);
+    color: var(--color-body);
+    line-height: 1.35;
+    background: var(--color-page-bg);
+    font-size: var(--fs-body);
+}
+
+/* --------------------------------------------------------------------------
+   Language switcher (screen only — hidden from the printed sheet)
+   -------------------------------------------------------------------------- */
+.lang-switch {
+    position: fixed;
+    top: 1.2rem;
+    right: 1.2rem;
+    z-index: 10;
+    display: flex;
+    gap: .6rem;
+    font-size: 1.4rem;
+}
+
+.lang-switch__link {
+    padding: .4rem 1rem;
+    border-radius: var(--radius-pill);
+    background: var(--color-brand);
+    color: var(--color-on-dark);
+    text-decoration: none;
+    box-shadow: 0 0.2rem 0.6rem rgba(0, 0, 0, .18);
+}
+
+/* --------------------------------------------------------------------------
+   Sheet — A4 layout
+   -------------------------------------------------------------------------- */
+.sheet {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    width: var(--sheet-width);
+    height: var(--sheet-height);
+    margin: 1rem auto;
+    background: var(--color-sheet-bg);
+    box-shadow: 0 0.4rem 2.4rem rgba(0, 0, 0, .12);
+    overflow: hidden;
+}
+
+/* --------------------------------------------------------------------------
+   Section title (shared block)
+   -------------------------------------------------------------------------- */
+.section-title {
+    font-weight: 700;
+    color: var(--color-heading);
+    font-size: var(--fs-section);
+    margin-top: .5rem;
+    position: relative;
+
+    &::after {
+        content: "";
+        position: absolute;
+        height: 1px;
+        background: var(--color-border);
+        width: -moz-available;
+        margin: 0 1rem 0 1.5rem;
+        top: 55%;
+    }
+}
+
+.section-title--sidebar {
+    color: var(--color-on-dark);
+    text-align: left;
+    margin: 1.8rem 0 1rem;
+
+    &::after {
+        content: none;
+    }
+}
+
+/* --------------------------------------------------------------------------
+   Icons — `icon` block + `icon--*` glyph/style modifiers
+   -------------------------------------------------------------------------- */
+.icon::before {
+    font-family: 'FA Solid';
+    font-weight: 900;
+    display: inline-block;
+    width: 1.8rem;
+    text-align: center;
+}
+
+.icon--brand::before {
+    font-family: 'FA Brands';
+    font-weight: 400;
+}
+
+.icon--location::before { content: "\f3c5"; }
+.icon--mail::before     { content: "\f0e0"; }
+.icon--phone::before    { content: "\f095"; }
+.icon--web::before      { content: "\f0ac"; }
+.icon--linkedin::before { content: "\f08c"; }
+.icon--github::before   { content: "\f09b"; }
+.icon--code::before     { content: "\f121"; }
+.icon--cubes::before    { content: "\f1b2"; }
+.icon--tools::before    { content: "\f7d9"; }
+.icon--bulb::before     { content: "\f0eb"; }
+.icon--layers::before   { content: "\f5fd"; }
+.icon--lang::before     { content: "\f1ab"; }
+
+/* --------------------------------------------------------------------------
+   Sidebar
+   -------------------------------------------------------------------------- */
+.sidebar {
+    background: var(--color-sidebar-bg);
+    color: var(--color-on-dark);
+    padding: 2rem 1.4rem 0;
+    text-align: center;
+}
+
+.sidebar__avatar {
+    width: 14rem;
+    height: 14rem;
+    border-radius: 50%;
+    object-fit: cover;
+    margin: 0 auto;
+    border: .5rem solid;
+    box-shadow: 0 0.4rem 1rem rgba(0, 0, 0, .2);
+}
+
+.sidebar__name {
+    font-size: var(--fs-name);
+    font-weight: 700;
+    margin-top: 1.1rem;
+    letter-spacing: .02em;
+}
+
+.sidebar__tagline {
+    font-size: var(--fs-tagline);
+    font-weight: 500;
+    font-style: italic;
+    margin-top: .3rem;
+    margin-bottom: 2rem;
+}
+
+.sidebar__divider {
+    margin: 2rem auto 1rem;
+    background: var(--color-on-dark);
+    border-color: var(--color-on-dark);
+    height: 2px;
+    width: 50%;
+}
+
+/* --------------------------------------------------------------------------
+   Contact
+   -------------------------------------------------------------------------- */
+.contact {
+    list-style: none;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+    font-size: var(--fs-contact);
+}
+
+.contact__item {
+    display: flex;
+    gap: 1rem;
+}
+
+.contact__value {
+    word-break: break-word;
+}
+
+.contact__link {
+    color: inherit;
+    text-decoration: none;
+}
+
+/* --------------------------------------------------------------------------
+   Skills
+   -------------------------------------------------------------------------- */
+.skills {
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.skills__name {
+    display: grid;
+    grid-template-columns: 1.8rem 1fr;
+    gap: 1rem;
+    align-items: center;
+    font-weight: 600;
+    font-size: var(--fs-skill-name);
+}
+
+.skills__list {
+    font-size: var(--fs-skill-item);
+    margin-top: .5rem;
+    padding-left: 4rem;
+    list-style-type: none;
+}
+
+/* --------------------------------------------------------------------------
+   Main column
+   -------------------------------------------------------------------------- */
+.main {
+    display: flex;
+    flex-flow: column;
+    gap: 1rem;
+    padding: 2rem 2.5rem;
+}
+
+.main .section-title:first-child {
+    margin-top: 0;
+}
+
+/* --------------------------------------------------------------------------
+   Entries (career / highlights / education)
+   -------------------------------------------------------------------------- */
+.entries {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: .3rem;
+    margin-left: 1rem;
+}
+
+.entry {
+    display: grid;
+    grid-template-columns: 4rem 1fr;
+    place-items: baseline;
+    line-height: 1.2;
+}
+
+.entry__date {
+    text-align: right;
+    font-weight: 700;
+    color: var(--color-heading);
+    font-size: var(--fs-date);
+    line-height: 1.25;
+    justify-self: flex-end;
+}
+
+.entry__date-to {
+    display: block;
+}
+
+.entry__date-since-to {
+    display: inline-block;
+    margin-left: .3rem;
+}
+
+.entry__body {
+    padding-left: 1rem;
+    margin-left: 1rem;
+    border-left: 1px solid var(--color-border);
+}
+
+.entry__role {
+    font-size: var(--fs-role);
+    color: var(--color-accent);
+    font-weight: 700;
+}
+
+.entry__org {
+    font-size: var(--fs-org);
+    color: var(--color-muted);
+    font-weight: 500;
+}
+
+.entry__missions {
+    list-style: square;
+    padding-left: 1.4rem;
+    margin-top: .2rem;
+}
+
+.entry__mission {
+    font-size: var(--fs-detail);
+    color: var(--color-body);
+}
+
+.entry__desc {
+    font-size: var(--fs-detail);
+    color: var(--color-body);
+    margin-top: .1rem;
+}
+
+/* --------------------------------------------------------------------------
+   Extras
+   -------------------------------------------------------------------------- */
+.extras {
+    list-style: none;
+    display: flex;
+    flex-flow: column;
+    gap: 1.6rem;
+    margin-top: .3rem;
+    margin-left: 1rem;
+}
+
+.extras__group {
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+}
+
+.extras__subtitle {
+    font-size: var(--fs-subtitle);
+    font-weight: 700;
+    color: var(--color-accent);
+}
+
+.extras__body {
+    padding-left: 2.4rem;
+}
+
+.extras__note {
+    font-size: var(--fs-note);
+    font-style: italic;
+    color: var(--color-muted);
+    margin-top: .3rem;
+}
+
+/* ---- Associations ---- */
+.assoc {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: .4rem;
+}
+
+.assoc__item {
+    font-size: var(--fs-skill-name);
+    font-weight: 700;
+    color: var(--color-accent);
+}
+
+.assoc__role {
+    font-size: var(--fs-org);
+    font-weight: 500;
+    color: var(--color-muted);
+}
+
+.assoc__year {
+    font-size: var(--fs-note);
+    font-weight: 500;
+    color: var(--color-muted);
+}
+
+/* ---- Tags ---- */
+.tags {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: .5rem;
+}
+
+.tags__item {
+    font-size: var(--fs-detail);
+    font-weight: 500;
+    color: var(--color-accent);
+    background: var(--color-tag-bg);
+    border-radius: var(--radius-pill);
+    padding: .25rem .9rem;
+    line-height: 1.35;
+}
+
+/* --------------------------------------------------------------------------
+   Print
+   -------------------------------------------------------------------------- */
+@page {
+    size: A4;
+    margin: 0;
+}
+
+@media print {
+    body {
+        background: var(--color-sheet-bg);
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    .sheet {
+        margin: 0;
+        box-shadow: none;
+    }
+
+    .contact__link {
+        text-decoration: none;
+    }
+
+    .lang-switch {
+        display: none;
+    }
+}

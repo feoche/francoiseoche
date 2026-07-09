@@ -30,85 +30,99 @@ window.portfolioData = {
 
     experience: [
         {
-            date: 'Since March 2023',
+            startDate: 'March 2023',
             title: 'Design System Product Owner',
             company: {name: 'OVHcloud', url: 'https://www.ovhcloud.com/'},
             missions: [
-                'Set of brand and design best practices and UI components',
+                'Set of brand and design best practices, and UI components',
                 'Component standards, priorities and roadmap definition',
-                'Brand, design, PUs and engineering bridging',
             ]
         },
         {
-            date: 'Since October 2024',
-            title: 'Web accessibility representative',
+            startDate: 'October 2024',
+            title: 'Digital Accessibility Advisor',
             company: {name: 'OVHcloud', url: 'https://www.ovhcloud.com/'},
             missions: [
                 'Company-wide strategy definition for web accessibility',
-                'Internal RGAA audits',
-                'Support and training',
+                'Internal RGAA audits, support and training'
             ]
         },
         {
-            date: 'October 2019 - March 2023',
+            startDate: 'October 2019',
+            endDate: 'March 2023',
             title: 'IT Technical Leader',
             company: {name: 'OVHcloud', url: 'https://www.ovhcloud.com/'},
             missions: [
                 'Order funnel front-end architecture',
-                'Run tasks and support',
-                'OVHcloud Design System team foundation'
+                'Code review & mentoring'
             ]
         },
         {
-            date: 'September 2017 - October 2019',
+            startDate: 'September 2017',
+            endDate: 'October 2019',
             title: 'Software Engineer',
             company: {name: 'OVHcloud', url: 'https://www.ovhcloud.com/'},
             missions: [
-                'Order funnel front-end building and maintenance',
-                'Improved performance and cross-browser compatibility',
-                'Run tasks and support',
+                'Customer space front-end improvement and maintenance',
+                'Improved performance and cross-browser compatibility'
             ]
         },
         {
-            date: 'September 2014 - August 2017',
+            startDate: 'September 2014',
+            endDate: 'August 2017',
             title: 'Research Engineer',
             company: {name: 'Niji', url: 'https://www.niji.fr/'},
             missions: [
                 'Web and hybrid web applications integration',
-                'Corrective and evolutionary maintenance',
-                'Front-end technological development monitoring'
+                'Corrective and evolutionary maintenance'
             ]
         },
         {
-            date: 'February 2014 - August 2014',
+            startDate: 'February 2014',
+            endDate: 'August 2014',
             title: 'End-of-studies Internship',
             company: {name: 'Niji', url: 'https://www.niji.fr/'},
             missions: [
-                'Joined existing teams on web and mobile projects',
                 'HTML/CSS/JS integration tasks handling',
                 'Corrective maintenance on live products'
             ]
         },
         {
-            date: 'May 2013 - August 2013',
+            startDate: 'May 2013',
+            endDate: 'August 2013',
             title: 'First year of Masters Internship',
             company: {name: 'Ville de Rennes', url: 'https://metropole.rennes.fr/'},
             missions: [
                 '<abbr title="Extract Transform Load">ETL</abbr> of remote raw data into library databases',
-                'Added rich media support to documentary records',
-                'Contributed to IT helpdesk operations'
+                'Added rich media support to documentary records'
             ]
         }
     ],
 
     diplomas: [
         {
+            title: 'Professional Scrum Master I (PSM I) Certification',
+            date: '2026',
+            place: {name: 'Rhapsodies Conseil', url: 'https://www.rhapsodiesconseil.fr/'},
+            details: [
+                'Knowledge of Scrum and its application in software development'
+            ]
+        },
+        {
+            title: 'Digital Accessibility Certification',
+            date: '2023',
+            place: {name: 'Access 42', url: 'https://access42.net/'},
+            details: [
+                '\'Développer des sites web accessibles et conformes au RGAA\''
+            ]
+        },
+        {
             title: 'Masters degree',
             date: '2014',
             place: {name: 'ISTIC – University of Rennes 1', url: 'https://istic.univ-rennes.fr/'},
             details: [
                 'With "Good" distinction',
-                'Special emphasis on interface ergonomics and ICT'
+                '\'Interface ergonomics and ICT\' specialty'
             ]
         },
         {
@@ -125,87 +139,99 @@ window.portfolioData = {
     projects: [
         {
             title: 'OVHcloud Design System',
-            date: 'Since July 2021',
-            description: 'OVHcloud Design System is a collection of reusable components, designed to be used mostly in the OVHcloud platform',
+            startDate: 'July 2021',
+            description: 'Used on 200+ OVHcloud apps across 20+ teams',
             url: 'https://www.ovh.com/fr/order/dedicated'
         },
         {
             title: 'OVHcloud Order funnel',
-            date: 'January 2018 - June 2021',
-            description: 'Responsive website for customer ordering OVHcloud\'s services',
+            startDate: 'January 2018',
+            endDate: 'June 2021',
+            description: 'Modular order flow revamp, reducing customer churn by 25%',
             url: 'https://www.ovh.com/fr/order/dedicated'
         },
         {
             title: 'OVHcloud Customer space',
-            date: 'September 2017 - January 2018',
-            description: 'Responsive website for customer management with OVH\'s services',
+            startDate: 'September 2017',
+            endDate: 'January 2018',
+            description: 'Interactive dashboard for customers with OVHcloud services',
             url: 'https://www.ovhtelecom.fr/manager/index.html#/'
         },
         {
             title: 'RegionsJob',
-            date: 'August 2017 - January 2017',
-            description: 'Hybrid app on iOS/Android for job listing/job searching',
+            startDate: 'January 2017',
+            endDate: 'August 2017',
+            description: 'Hybrid app on iOS/Android for job listing',
             url: 'https://www.regionsjob.com/'
         },
         {
             title: 'CableVision - Optimum',
-            date: 'January 2016 - November 2015',
-            description: 'Responsive website presenting TV, mobile pre-paid and Internet services of the american company',
+            startDate: 'November 2015',
+            endDate: 'January 2016',
+            description: 'Order funnel for TV, mobile pre-paid and Internet services',
             url: 'https://www.optimum.com/'
         },
         {
             title: 'Aon - Aon Auto',
-            date: 'November 2015 - October 2015',
+            startDate: 'October 2015',
+            endDate: 'November 2015',
             description: 'Hybrid app on iOS/Android for insurance handling on vehicule fleets',
             url: 'https://www.aonassurances.com/Particuliers/Assurance/Gamme_auto/Auto_classique'
         },
         {
             title: 'Virgin Mobile - eBoutique',
-            date: 'October 2015 - May 2015',
+            startDate: 'May 2015',
+            endDate: 'October 2015',
             description: 'eShop presenting phone, mobile pre-paid and Internet services with order funnel',
             url: 'https://virginmobile.fr'
         },
         {
             title: 'ERDF - A mes côtés',
-            date: 'May 2015 - March 2015',
+            startDate: 'March 2015',
+            endDate: 'May 2015',
             description: 'Hybrid app for iOS, Android and Windows Phone displaying access to self-diagnostic in case of power outage, risk prevention and contact infos',
             url: 'https://itunes.apple.com/fr/app/a-mes-cotes/id885458976'
         },
         {
             title: 'Natixis - Rouler Serein',
-            date: 'April 2015 - December 2014',
+            startDate: 'December 2014',
+            endDate: 'April 2015',
             description: 'Hybrid app for iOS and Android suggesting insurance simulation, insurance claim and customer service for customer vehicles',
             url: 'https://itunes.apple.com/fr/app/rouler-serein/id547607719'
         },
         {
             title: 'Edelia - Main website',
-            date: 'Since November 2014',
+            startDate: 'November 2014',
+            endDate: 'December 2014',
             description: 'Responsive website displaying Edelia professional offers for energy',
             url: 'https://www.edelia.fr'
         },
         {
             title: 'Bouygues Telecom - B.tv',
-            date: 'October 2014 - September 2014',
+            startDate: 'September 2014',
+            endDate: 'October 2014',
             description: 'Chromecast app linked to the BBox (Bouygues Telecom) in order to display compatible TV channels/replays',
             url: 'https://www.services.bouyguestelecom.fr/television/services-tv/b-tv'
         },
         {
             title: 'Femmes de Bretagne',
-            date: 'October 2014 - July 2014',
+            startDate: 'July 2014',
+            endDate: 'July 2014',
             description: 'Social network creation project for women entrepreneurs in Brittany',
             url: 'https://femmesdebretagne.fr'
         },
         {
             title: 'Banque Populaire',
             subtitle: 'Showcase mobile site',
-            date: 'September 2014 - March 2014',
+            startDate: 'March 2014',
+            endDate: 'September 2014',
             description: 'Responsive mobile website presenting Banque Populaire offers — related to the desktop website',
             url: 'https://www.banquepopulaire.fr'
         },/*
         {
             title: 'Bibliothèque de Rennes Métropole',
             subtitle: 'Encore catalog',
-            date: 'Since July 2013',
+            date: 'July 2013 - July 2013',
             description: 'Enhancement of documentary notes into the web catalog of Rennes Métropole libraries <a href="https://opac.si.leschampslibres.fr" target="_blank">(Encore)</a> thanks to enriched content coming from <a href="https://www.babelio.com" target="_blank">Babelio</a> database',
             url: 'https://opac.si.leschampslibres.fr/'
         },

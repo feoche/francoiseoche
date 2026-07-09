@@ -9,6 +9,20 @@ const outputDir = path.join(rootDir, 'docs');
 const requiredFiles = ['index.html', 'index.js', 'styles.css'];
 const optionalFiles = ['404.html', 'favicon.ico', 'robots.txt', 'sitemap.xml', 'manifest.webmanifest', 'CNAME', '_headers'];
 const optionalDirectories = ['assets', 'images', 'fonts', 'public', 'js', '.well-known', 'api-docs'];
+
+// CV pages moved to cv/. Each language variant is served one directory deep so
+// that the pages' relative links (../assets, ../en/cv, ../fr/cv, cv.css) resolve
+// correctly:
+//   /en/cv  -> docs/en/cv.html      (English)
+//   /fr/cv  -> docs/fr/cv.html      (French)
+//   /cv/    -> docs/cv/index.html   (French, default when no language matches)
+const cvSourceDir = 'cv';
+const cvPages = [
+  { source: 'en.html', dest: path.join('en', 'cv.html') },
+  { source: 'fr.html', dest: path.join('fr', 'cv.html') },
+  { source: 'fr.html', dest: path.join('cv', 'index.html') }
+];
+const cvStylesheet = 'cv.css';
 const agentSkillMetadata = {
   'api-catalog.md': {
     name: 'API catalog discovery',
@@ -89,6 +103,12 @@ function decodeEntities(value = '') {
     .replace(/&#39;/g, "'");
 }
 
+function formatDateRange(item) {
+  if (!item.endDate) return `Since ${item.startDate}`;
+  if (item.startDate === item.endDate) return item.startDate;
+  return `${item.startDate} - ${item.endDate}`;
+}
+
 function stripHtml(value = '') {
   return decodeEntities(value)
     .replace(/<[^>]+>/g, '')
@@ -162,7 +182,7 @@ function renderMarkdown(data, siteConfig) {
 
   const sectionDefinitions = [
     ['Experience', data.experience, (item) => [
-      `### ${stripHtml(item.title)} — ${stripHtml(item.date)}`,
+      `### ${stripHtml(item.title)} — ${formatDateRange(item)}`,
       `- Company: ${stripHtml(item.company.name)}`,
       ...item.missions.map((mission) => `- ${stripHtml(mission)}`)
     ]],
@@ -172,7 +192,7 @@ function renderMarkdown(data, siteConfig) {
       ...item.details.map((detail) => `- ${stripHtml(detail)}`)
     ]],
     ['Featured Projects', data.projects, (item) => [
-      `### ${stripHtml(item.title)} — ${stripHtml(item.date)}`,
+      `### ${stripHtml(item.title)} — ${formatDateRange(item)}`,
       item.subtitle ? `- Subtitle: ${stripHtml(item.subtitle)}` : null,
       `- Description: ${stripHtml(item.description)}`,
       item.url ? `- URL: ${item.url}` : null
@@ -233,14 +253,14 @@ function buildProfileDocument(data, siteConfig) {
     sections: {
       experience: data.experience.map((item) => ({
         title: stripHtml(item.title),
-        date: stripHtml(item.date),
+        date: formatDateRange(item),
         company: stripHtml(item.company.name),
         missions: item.missions.map((mission) => stripHtml(mission))
       })),
       projects: data.projects.map((item) => ({
         title: stripHtml(item.title),
         subtitle: item.subtitle ? stripHtml(item.subtitle) : null,
-        date: stripHtml(item.date),
+        date: formatDateRange(item),
         description: stripHtml(item.description),
         url: item.url || null
       })),
@@ -551,7 +571,7 @@ function renderExperience(data) {
                 <article class="timeline-item">
                     <time class="timeline-date">
                         <span class="calendar-icon" aria-hidden="true">📅</span>&nbsp;
-                        ${item.date}
+                        ${formatDateRange(item)}
                     </time>
                     <div class="timeline-content">
                         <h3 class="timeline-title">${item.title}</h3>
@@ -592,7 +612,7 @@ function renderProjects(data) {
                         <h3 class="project-title">${item.title}</h3>
                         ${subtitle}
                         <time class="project-date">
-                            <span class="calendar-icon" aria-hidden="true">📅</span>&nbsp;${item.date}
+                            <span class="calendar-icon" aria-hidden="true">📅</span>&nbsp;${formatDateRange(item)}
                         </time>
                         <p class="project-description">${item.description}</p>
                         ${link}
@@ -784,6 +804,28 @@ async function copyOptionalDirectories() {
   }
 }
 
+async function copyCvPages() {
+  const sourceDir = path.join(rootDir, cvSourceDir);
+  if (!(await exists(sourceDir))) return;
+
+  const stylesheetSource = path.join(sourceDir, cvStylesheet);
+  const hasStylesheet = await exists(stylesheetSource);
+
+  for (const { source, dest } of cvPages) {
+    const sourcePath = path.join(sourceDir, source);
+    if (!(await exists(sourcePath))) continue;
+
+    const destPath = path.join(outputDir, dest);
+    await mkdir(path.dirname(destPath), { recursive: true });
+    await copyFile(sourcePath, destPath);
+
+    // The page references cv.css relatively, so it must sit alongside it.
+    if (hasStylesheet) {
+      await copyFile(stylesheetSource, path.join(path.dirname(destPath), cvStylesheet));
+    }
+  }
+}
+
 async function build() {
   const data = await loadData();
   const siteConfig = await loadSiteConfig();
@@ -794,6 +836,7 @@ async function build() {
   await copyRequiredFiles();
   await copyOptionalFiles();
   await copyOptionalDirectories();
+  await copyCvPages();
   await writeGeneratedArtifacts(data, siteConfig);
 
   // Overwrite index.html with flattened (pre-rendered) version
