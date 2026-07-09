@@ -581,13 +581,17 @@ function renderHero(data) {
     .map(d => `<p class="hero-description">${d}</p>`)
     .join('\n            ');
 
+  const cta = hero.cta
+    ? `\n            <div class="hero-actions"><a class="btn btn-secondary" href="${hero.cta.url}">${hero.cta.label}</a></div>`
+    : '';
+
   return `
             <h1 id="hero-title" class="hero-title">
                 <img src="${hero.avatar}" alt="${hero.avatarAlt}" class="hero-avatar">
                 <span class="name">${hero.name}</span>
                 <span class="role">${hero.role}</span>
             </h1>
-            ${descriptions}`;
+            ${descriptions}${cta}`;
 }
 
 function renderExperience(data) {

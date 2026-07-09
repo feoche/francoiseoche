@@ -32,7 +32,11 @@ window.portfolioData = {
             'Passionate about styling, accessibility and user experience, ',
             'I hold a Masters degree in Computer Science with a focus on interface ergonomics and ICT',
             'Browse through my work, side projects and activities — and feel free to get in touch!'
-        ]
+        ],
+        cta: {
+            label: 'My resume',
+            url: '../en/cv'
+        }
     },
 
     experience: [

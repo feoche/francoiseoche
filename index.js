@@ -26,7 +26,7 @@
         navToggle: document.querySelector('.nav-toggle'),
         navMenu: document.querySelector('.nav-menu'),
         navBrand: document.querySelector('.nav-brand'),
-        navLinks: document.querySelectorAll('.nav-link'),
+        navLinks: document.querySelectorAll('.nav-link:not(.lang-link)'),
         fontSizeToggle: document.getElementById('font-size-toggle'),
         dyslexicFontToggle: document.getElementById('dyslexic-font-toggle'),
         accessibilityMenuToggle: document.getElementById('accessibility-menu-toggle'),

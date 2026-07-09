@@ -32,7 +32,11 @@ window.portfolioData = {
             "Passionné par le style, l'accessibilité et l'expérience utilisateur, ",
             "je suis titulaire d'un Master en informatique spécialisé en ergonomie des interfaces et TIC",
             'Parcourez mes travaux, projets personnels et activités — et n\'hésitez pas à me contacter !'
-        ]
+        ],
+        cta: {
+            label: 'Mon CV',
+            url: 'fr/cv'
+        }
     },
 
     experience: [
