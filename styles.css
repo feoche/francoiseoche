@@ -15,6 +15,7 @@
     --bg-secondary: #f8faf9;
     --bg-alt: #f0f5f3;
     --border-color: #d5e0dc;
+    --link-color: #0080bf;
     --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
     --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
     --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
@@ -74,6 +75,7 @@
     --primary-hover: #ffffff;
     --text-primary: #ffffff;
     --text-secondary: #ffffff;
+    --link-color: #00ACAB;
     --bg-primary: #0c1f1b;
     --bg-secondary: #00574a;
     --bg-alt: #003D34;
@@ -166,6 +168,10 @@ body {
     background-color: var(--bg-primary);
     overflow-x: hidden;
     transition: color var(--transition-base), background-color var(--transition-base);
+}
+
+a {
+    color: var(--link-color);
 }
 
 .nav-brand-name,
@@ -302,7 +308,8 @@ body {
     gap: var(--spacing-2xl);
 }
 
-.accessibility-section {
+.accessibility-section,
+.custom-color-section {
     display: flex;
     flex-direction: column;
     gap: var(--spacing-md);
@@ -312,12 +319,6 @@ body {
     font-size: var(--text-lg);
     font-weight: 600;
     color: var(--text-primary);
-}
-
-.custom-color-section {
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-md);
 }
 
 .color-pickers-row {
@@ -365,12 +366,8 @@ body {
     transition: all var(--transition-fast);
     text-align: center;
     border: var(--border-width) solid var(--border-color);
-    background: transparent;
-    color: var(--text-secondary);
-}
-
-.apply-color-btn {
     background: var(--bg-secondary);
+    color: var(--text-secondary);
 
     &:focus {
         border-color: var(--primary-color);
@@ -815,6 +812,7 @@ body {
     color: var(--text-secondary);
     animation: var(--animation-slide) 0.2s both;
     line-height: 1.7;
+    text-wrap: balance;
 }
 
 .hero-actions {
@@ -957,7 +955,7 @@ body {
     border-radius: var(--radius-md);
     border: var(--border-width) solid var(--border-color);
     display: flex;
-    min-width: clamp(60ch, 30vw, 80ch);
+    min-width: clamp(50ch, 30vw, 80ch);
     flex-direction: column;
     gap: var(--spacing-xs);
     transition: border-color var(--transition-base), box-shadow var(--transition-base);
@@ -1058,7 +1056,8 @@ body {
     gap: var(--spacing-xl);
 }
 
-.diploma-card {
+.diploma-card,
+.talk-card {
     flex: 1 1 300px;
     padding: var(--spacing-xl);
     text-align: center;
@@ -1075,7 +1074,8 @@ body {
     color: var(--text-primary);
 }
 
-.diploma-icon {
+.diploma-icon,
+.talk-icon {
     font-size: var(--text-5xl);
     animation: var(--animation-float);
 }
@@ -1084,6 +1084,7 @@ body {
 .diploma-date,
 .project-date,
 .talk-date,
+.talk-event,
 .extra-date {
     color: var(--text-secondary);
     font-size: var(--text-sm);
@@ -1136,35 +1137,9 @@ body {
 
 .project-link { text-align: right; }
 
-/* =====================
-   Talks Section
-   ===================== */
-.talk-card {
-    flex: 1 1 300px;
-    padding: var(--spacing-xl);
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-    animation: var(--animation-fade);
-    align-items: center;
-    gap: var(--spacing-sm);
-}
-
-.talk-icon {
-    font-size: var(--text-5xl);
-    animation: var(--animation-float);
-}
-
 .talk-title {
-    font-family: var(--font-heading);
     font-size: var(--text-xl);
     color: var(--text-primary);
-}
-
-.talk-date,
-.talk-event {
-    color: var(--text-secondary);
-    font-size: var(--text-sm);
 }
 
 .talk-description {
@@ -1183,7 +1158,7 @@ body {
 
 .extra-item {
     flex: 1 1 250px;
-    padding: var(--spacing-xl);
+    padding: var(--spacing-lg);
     text-align: center;
     align-items: center;
     gap: var(--spacing-sm);
